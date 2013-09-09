@@ -14,7 +14,7 @@
     <dynamodb:config region="US_WEST_1" accessKey="insert_your_key_here" secretKey="insert_your_key_here>"/>
 
     <flow name="Should_Create_Table">
-        <dynamodb:create-table tableName="DynamoDbConnectorTestTable_toDelete" readCapacityUnits="1" writeCapacityUnits="1"/>
+        <dynamodb:create-table tableName="DynamoDbConnectorTestTable_toDelete" readCapacityUnits="1" writeCapacityUnits="1" waitFor="1"/>
     </flow>
 
 </mule>

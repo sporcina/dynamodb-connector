@@ -30,7 +30,7 @@ public class DynamoDBConnector
 
     static AmazonDynamoDBClient dynamoDB;
 
-    public static final int TEN_MINUTES = 10 * 60 * 1000;
+    //public static final int TEN_MINUTES = 10 * 60 * 1000;
     public static final int TWENTY_SECONDS = 1000 * 20;
 
     /**
@@ -112,11 +112,13 @@ public class DynamoDBConnector
      *          dedicated read units per second
      * @param writeCapacityUnits
      *          dedicated write units per second
+     * @param waitFor
+     *          the number of minutes to wait for the table to become active
      *
      * @return ACTIVE if the table already exists, or was created successfully
      */
     @Processor
-    public String createTable(final String tableName, final Long readCapacityUnits, final Long writeCapacityUnits) {
+    public String createTable(final String tableName, final Long readCapacityUnits, final Long writeCapacityUnits, final Integer waitFor) {
         try {
             DescribeTableRequest describeTableRequest = new DescribeTableRequest().withTableName(tableName);
             dynamoDB.describeTable(describeTableRequest).getTable();
@@ -129,7 +131,7 @@ public class DynamoDBConnector
 
             dynamoDB.createTable(createTableRequest);
 
-            waitForTableToBecomeAvailable(tableName);
+            waitForTableToBecomeAvailable(tableName, waitFor);
 
             return TableStatus.ACTIVE.toString();
         } catch (Exception e) {
@@ -138,11 +140,24 @@ public class DynamoDBConnector
         return TableStatus.ACTIVE.toString();
     }
 
-    private void waitForTableToBecomeAvailable(String tableName) {
+    /**
+     * Wait for the requests table to become active
+     *
+     * DynamoDB takes some time to create a new table, depending on the complexity of the table and the requested
+     * read/write capacity.  Performing any actions against the table before it is active will result in a failure.
+     * This method periodically checks to see if the table is active for the requested period.
+     *
+     * @param tableName the name of the table to create
+     * @param waitFor number of minutes to wait for the table
+     */
+    private void waitForTableToBecomeAvailable(final String tableName, final Integer waitFor) {
         System.out.println("Waiting for table " + tableName + " to become ACTIVE...");
 
+        final long minutesToWaitFor = (waitFor * 60 * 1000);
+
         long startTime = System.currentTimeMillis();
-        long endTime = startTime + TEN_MINUTES;
+        long endTime = startTime + minutesToWaitFor;
+
         while (System.currentTimeMillis() < endTime) {
             try {
                 Thread.sleep(TWENTY_SECONDS);
