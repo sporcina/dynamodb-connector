@@ -9,21 +9,12 @@
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
         http://www.mulesoft.org/schema/mule/dynamodb http://www.mulesoft.org/schema/mule/dynamodb/1.0-SNAPSHOT/mule-dynamodb.xsd">
 
-    <!-- original -->
-    <!--<dynamodb:config myProperty="Some string"-->
-            <!--username="xxx" password="yyy"/>-->
-
-    <!--<flow name="testFlow">-->
-        <!--<dynamodb:my-processor content="Another string"/>-->
-    <!--</flow>-->
-
 
     <!-- see com.amazonaws.regions.Regions for the enumerated region names -->
-    <dynamodb:config region="US_WEST_1" accessKey="<insert your key here>" secretKey="<insert your key here>"/>
+    <dynamodb:config region="US_WEST_1" accessKey="insert_your_key_here" secretKey="insert_your_key_here>"/>
 
     <flow name="Should_Create_Table">
         <dynamodb:create-table tableName="DynamoDbConnectorTestTable_toDelete" readCapacityUnits="1" writeCapacityUnits="1"/>
-        <!--<dynamodb:save-document tableName="Another string" document-ref="#[payload]"/>-->
     </flow>
 
 </mule>
