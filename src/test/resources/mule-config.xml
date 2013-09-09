@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:spring="http://www.springframework.org/schema/beans"
+      xmlns:dynamodb="http://www.mulesoft.org/schema/mule/dynamodb"
+      xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/dynamodb http://www.mulesoft.org/schema/mule/dynamodb/1.0-SNAPSHOT/mule-dynamodb.xsd">
+
+    <!-- original -->
+    <!--<dynamodb:config myProperty="Some string"-->
+            <!--username="xxx" password="yyy"/>-->
+
+    <!--<flow name="testFlow">-->
+        <!--<dynamodb:my-processor content="Another string"/>-->
+    <!--</flow>-->
+
+
+    <!-- see com.amazonaws.regions.Regions for the enumerated region names -->
+    <dynamodb:config region="US_WEST_1" accessKey="<insert your key here>" secretKey="<insert your key here>"/>
+
+    <flow name="Should_Create_Table">
+        <dynamodb:create-table tableName="DynamoDbConnectorTestTable_toDelete" readCapacityUnits="1" writeCapacityUnits="1"/>
+        <!--<dynamodb:save-document tableName="Another string" document-ref="#[payload]"/>-->
+    </flow>
+
+</mule>
