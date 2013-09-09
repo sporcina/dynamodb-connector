@@ -20,7 +20,7 @@ public class DynamoDBConnectorTest extends FunctionalTestCase
     }
 
     @Test
-    public void testFlow() throws Exception
+    public void shouldCreateTable() throws Exception
     {
         runFlowAndExpect("Should_Create_Table", "ACTIVE");
     }
