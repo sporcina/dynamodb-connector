@@ -3,6 +3,7 @@
  */
 package org.mule.modules;
 
+import com.amazonaws.services.dynamodbv2.model.TableStatus;
 import org.junit.Assert;
 import org.mule.api.MuleEvent;
 import org.mule.construct.Flow;
@@ -22,7 +23,7 @@ public class DynamoDBConnectorTest extends FunctionalTestCase
     @Test
     public void shouldCreateTable() throws Exception
     {
-        runFlowAndExpect("Should_Create_Table", "ACTIVE");
+        runFlowAndExpect("Should_Create_Table", TableStatus.ACTIVE.toString());
     }
 
     /**
