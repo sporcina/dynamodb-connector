@@ -5,13 +5,14 @@ package org.mule.modules;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.*;
+import org.apache.commons.lang.StringUtils;
 import org.mule.api.ConnectionException;
 import org.mule.api.annotations.*;
 import org.mule.api.annotations.param.ConnectionKey;
@@ -27,10 +28,9 @@ import org.slf4j.LoggerFactory;
 public class DynamoDBConnector {
 
     private static final Logger logger = LoggerFactory.getLogger(DynamoDBConnector.class);
+    private static AmazonDynamoDBClient dynamoDBClient;
 
-    static AmazonDynamoDBClient dynamoDB;
-
-    public static final int TWENTY_SECONDS = 1000 * 20;
+    private static final int TWENTY_SECONDS = 1000 * 20;
 
 
     /**
@@ -52,9 +52,9 @@ public class DynamoDBConnector {
 
 
     /**
-     * Get aws region we are targeting
+     * Get aws region we are targeting (e.g. US_WEST_1)
      */
-    public String getRegion() {
+    String getRegion() {
         return this.region;
     }
 
@@ -64,26 +64,42 @@ public class DynamoDBConnector {
     }
 
 
+    private static AmazonDynamoDBClient getDynamoDBClient() {
+        return dynamoDBClient;
+    }
+
+
+    private static void setDynamoDBClient(AmazonDynamoDBClient dynamoDBClient) {
+        DynamoDBConnector.dynamoDBClient = dynamoDBClient;
+    }
+
+
+    private static Boolean isDynamoDBClientConnected() {
+        return getDynamoDBClient() != null;
+    }
+
+
     /**
      * Connect to the DynamoDB service
      *
-     * @param accessKey A username
-     * @param secretKey A password
+     * @param accessKey The access key provided to you through your Amazon AWS account
+     * @param secretKey The secret key provided to you through your Amazon AWS account
      */
     @Connect
     // TODO: try this => @Default (value = Query.MILES) @Optional String unit
-    public void connect(@ConnectionKey String accessKey, String secretKey) throws ConnectionException {
+    public void connect(@ConnectionKey String accessKey, String secretKey) {
 
         AWSCredentialsProvider credentialsProvider = new ClasspathPropertiesFileCredentialsProvider();
         try {
-            AWSCredentials credentials = credentialsProvider.getCredentials();
+            credentialsProvider.getCredentials();
         } catch (AmazonClientException e) {
-            logger.warn("AWSCredentials.properties file was not found.");
+            logger.warn("AWSCredentials.properties file was not found.  Attempting to acquire credentials from the default provider chain.");
+            credentialsProvider = new DefaultAWSCredentialsProviderChain();
         }
 
-        dynamoDB = new AmazonDynamoDBClient(credentialsProvider);
+        setDynamoDBClient(new AmazonDynamoDBClient(credentialsProvider));
         Region regionEnum = Region.getRegion(getRegionAsEnum());
-        dynamoDB.setRegion(regionEnum);
+        getDynamoDBClient().setRegion(regionEnum);
     }
 
 
@@ -92,7 +108,7 @@ public class DynamoDBConnector {
      */
     @Disconnect
     public void disconnect() {
-        // nothing to do
+        setDynamoDBClient(null);
     }
 
 
@@ -101,7 +117,7 @@ public class DynamoDBConnector {
      */
     @ValidateConnection
     public boolean isConnected() {
-        return this.dynamoDB != null;
+        return isDynamoDBClientConnected();
     }
 
 
@@ -116,20 +132,29 @@ public class DynamoDBConnector {
 
     /**
      * Create a new table
-     * <p/>
+     *
      * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:create-table}
      *
-     * @param tableName          title of the table
-     * @param readCapacityUnits  dedicated read units per second
-     * @param writeCapacityUnits dedicated write units per second
-     * @param waitFor            the number of minutes to wait for the table to become active
-     * @return ACTIVE if the table already exists, or was created successfully
+     * @param tableName
+     *              title of the table
+     * @param readCapacityUnits
+     *              dedicated read units per second
+     * @param writeCapacityUnits
+     *              dedicated write units per second
+     * @param waitFor
+     *              the number of minutes to wait for the table to become active
+     * @return ACTIVE
+     *              if the table already exists, or was created successfully, and responded that it is ready for requests
      */
     @Processor
     public String createTable(final String tableName, final Long readCapacityUnits, final Long writeCapacityUnits, final Integer waitFor) {
         try {
             DescribeTableRequest describeTableRequest = new DescribeTableRequest().withTableName(tableName);
-            dynamoDB.describeTable(describeTableRequest).getTable();
+            TableDescription description = getDynamoDBClient().describeTable(describeTableRequest).getTable();
+
+            // The table could be in several different states: CREATING, UPDATING, DELETING, & ACTIVE.
+            logger.warn(tableName + " already exists and is in the state of " + description.getTableStatus());
+            return description.getTableStatus();
 
         } catch (ResourceNotFoundException e) {
             CreateTableRequest createTableRequest = new CreateTableRequest().withTableName(tableName)
@@ -137,49 +162,47 @@ public class DynamoDBConnector {
                     .withAttributeDefinitions(new AttributeDefinition().withAttributeName("id").withAttributeType(ScalarAttributeType.S))
                     .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(readCapacityUnits).withWriteCapacityUnits(writeCapacityUnits));
 
-            dynamoDB.createTable(createTableRequest);
+            getDynamoDBClient().createTable(createTableRequest);
 
             waitForTableToBecomeAvailable(tableName, waitFor);
-
-            return TableStatus.ACTIVE.toString();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
         return TableStatus.ACTIVE.toString();
     }
 
 
     /**
-     * Wait for the requests table to become active
-     * <p/>
+     * Wait for the table to become active
+     *
      * DynamoDB takes some time to create a new table, depending on the complexity of the table and the requested
      * read/write capacity.  Performing any actions against the table before it is active will result in a failure.
      * This method periodically checks to see if the table is active for the requested period.
      *
-     * @param tableName the name of the table to create
-     * @param waitFor   number of minutes to wait for the table
+     * @param tableName
+     *              the name of the table to create
+     * @param waitFor
+     *              number of minutes to wait for the table
      */
     private void waitForTableToBecomeAvailable(final String tableName, final Integer waitFor) {
-        System.out.println("Waiting for table " + tableName + " to become ACTIVE...");
 
-        final long minutesToWaitFor = (waitFor * 60 * 1000);
+        logger.info("Waiting for table " + tableName + " to become ACTIVE...");
 
-        long startTime = System.currentTimeMillis();
-        long endTime = startTime + minutesToWaitFor;
+        final long millisecondsToWaitFor = (waitFor * 60 * 1000);
+        final long startTime = System.currentTimeMillis();
+        final long endTime = startTime + millisecondsToWaitFor;
 
         while (System.currentTimeMillis() < endTime) {
-            try {
-                Thread.sleep(TWENTY_SECONDS);
-            } catch (Exception e) {
-            }
+
+            try { Thread.sleep(TWENTY_SECONDS);
+            } catch (Exception e) {/*ignore sleep exceptions*/}
+
             try {
                 DescribeTableRequest request = new DescribeTableRequest().withTableName(tableName);
-                TableDescription tableDescription = dynamoDB.describeTable(request).getTable();
+                TableDescription tableDescription = getDynamoDBClient().describeTable(request).getTable();
                 String tableStatus = tableDescription.getTableStatus();
-                System.out.println("  - current state: " + tableStatus);
+                logger.info("  - current state: " + tableStatus);
                 if (tableStatus.equals(TableStatus.ACTIVE.toString())) return;
             } catch (AmazonServiceException ase) {
-                if (ase.getErrorCode().equalsIgnoreCase("ResourceNotFoundException") == false) throw ase;
+                if (!ase.getErrorCode().equalsIgnoreCase("ResourceNotFoundException")) throw ase;
             }
         }
 
