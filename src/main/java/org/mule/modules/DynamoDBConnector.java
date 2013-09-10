@@ -82,8 +82,10 @@ public class DynamoDBConnector {
     /**
      * Connect to the DynamoDB service
      *
-     * @param accessKey The access key provided to you through your Amazon AWS account
-     * @param secretKey The secret key provided to you through your Amazon AWS account
+     * @param accessKey
+     *              The access key provided to you through your Amazon AWS account
+     * @param secretKey
+     *              The secret key provided to you through your Amazon AWS account
      */
     @Connect
     // TODO: try this => @Default (value = Query.MILES) @Optional String unit
@@ -145,6 +147,8 @@ public class DynamoDBConnector {
      *              the number of minutes to wait for the table to become active
      * @return ACTIVE
      *              if the table already exists, or was created successfully, and responded that it is ready for requests
+     * @return Exception
+     *              if a problem was encountered
      */
     @Processor
     public String createTable(final String tableName, final Long readCapacityUnits, final Long writeCapacityUnits, final Integer waitFor) {
