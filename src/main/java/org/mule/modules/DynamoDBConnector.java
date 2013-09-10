@@ -3,35 +3,35 @@
  */
 package org.mule.modules;
 
+import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import org.mule.api.annotations.Connector;
-import org.mule.api.annotations.Connect;
-import org.mule.api.annotations.ValidateConnection;
-import org.mule.api.annotations.ConnectionIdentifier;
-import org.mule.api.annotations.Disconnect;
-import org.mule.api.annotations.param.ConnectionKey;
-import org.mule.api.ConnectionException;
-import org.mule.api.annotations.Configurable;
-import org.mule.api.annotations.Processor;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.*;
+import org.mule.api.ConnectionException;
+import org.mule.api.annotations.*;
+import org.mule.api.annotations.param.ConnectionKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * AWS DynamoDB Cloud Connector
  *
  * @author Sheldon Porcina
  */
-@Connector(name="dynamodb", schemaVersion="1.0-SNAPSHOT")
-public class DynamoDBConnector
-{
+@Connector(name = "dynamodb", schemaVersion = "1.0-SNAPSHOT")
+public class DynamoDBConnector {
+
+    private static final Logger logger = LoggerFactory.getLogger(DynamoDBConnector.class);
 
     static AmazonDynamoDBClient dynamoDB;
 
-    //public static final int TEN_MINUTES = 10 * 60 * 1000;
     public static final int TWENTY_SECONDS = 1000 * 20;
+
 
     /**
      * Configurable
@@ -39,16 +39,17 @@ public class DynamoDBConnector
     @Configurable
     private String region;
 
+
     /**
      * Set the AWS region we are targeting
      *
-     * @param region
-     *          Defines the AWS region to target.  Use the strings provided in the com.amazonaws.regions.Regions class.
+     * @param region Defines the AWS region to target.  Use the strings provided in the com.amazonaws.regions.Regions class.
      * @see com.amazonaws.regions.Regions
      */
     public void setRegion(String region) {
         this.region = region;
     }
+
 
     /**
      * Get aws region we are targeting
@@ -57,25 +58,34 @@ public class DynamoDBConnector
         return this.region;
     }
 
+
     private Regions getRegionAsEnum() {
         return Regions.valueOf(getRegion());
     }
 
+
     /**
      * Connect to the DynamoDB service
      *
-     * @param accessKey
-     *          A username
-     * @param secretKey
-     *          A password
+     * @param accessKey A username
+     * @param secretKey A password
      */
     @Connect
     // TODO: try this => @Default (value = Query.MILES) @Optional String unit
     public void connect(@ConnectionKey String accessKey, String secretKey) throws ConnectionException {
-        dynamoDB = new AmazonDynamoDBClient(new ClasspathPropertiesFileCredentialsProvider());
+
+        AWSCredentialsProvider credentialsProvider = new ClasspathPropertiesFileCredentialsProvider();
+        try {
+            AWSCredentials credentials = credentialsProvider.getCredentials();
+        } catch (AmazonClientException e) {
+            logger.warn("AWSCredentials.properties file was not found.");
+        }
+
+        dynamoDB = new AmazonDynamoDBClient(credentialsProvider);
         Region regionEnum = Region.getRegion(getRegionAsEnum());
         dynamoDB.setRegion(regionEnum);
     }
+
 
     /**
      * Disconnect from DynamoDB
@@ -85,6 +95,7 @@ public class DynamoDBConnector
         // nothing to do
     }
 
+
     /**
      * Are we connected to DynamoDB?
      */
@@ -92,6 +103,7 @@ public class DynamoDBConnector
     public boolean isConnected() {
         return this.dynamoDB != null;
     }
+
 
     /**
      * This method is called by Mule to find the name of the connection. This method provides a unique identifier for the connection, used for logging and debugging.
@@ -101,20 +113,16 @@ public class DynamoDBConnector
         return "AWS DynamoDB Mule Connector";
     }
 
+
     /**
      * Create a new table
-     *
+     * <p/>
      * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:create-table}
      *
-     * @param tableName
-     *          title of the table
-     * @param readCapacityUnits
-     *          dedicated read units per second
-     * @param writeCapacityUnits
-     *          dedicated write units per second
-     * @param waitFor
-     *          the number of minutes to wait for the table to become active
-     *
+     * @param tableName          title of the table
+     * @param readCapacityUnits  dedicated read units per second
+     * @param writeCapacityUnits dedicated write units per second
+     * @param waitFor            the number of minutes to wait for the table to become active
      * @return ACTIVE if the table already exists, or was created successfully
      */
     @Processor
@@ -140,15 +148,16 @@ public class DynamoDBConnector
         return TableStatus.ACTIVE.toString();
     }
 
+
     /**
      * Wait for the requests table to become active
-     *
+     * <p/>
      * DynamoDB takes some time to create a new table, depending on the complexity of the table and the requested
      * read/write capacity.  Performing any actions against the table before it is active will result in a failure.
      * This method periodically checks to see if the table is active for the requested period.
      *
      * @param tableName the name of the table to create
-     * @param waitFor number of minutes to wait for the table
+     * @param waitFor   number of minutes to wait for the table
      */
     private void waitForTableToBecomeAvailable(final String tableName, final Integer waitFor) {
         System.out.println("Waiting for table " + tableName + " to become ACTIVE...");
