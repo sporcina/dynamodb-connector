@@ -1,3 +1,7 @@
 <!-- BEGIN_INCLUDE(dynamodb:create-table) -->
-    <dynamodb:create-table tableName="string" readCapacityUnits="1" writeCapacityUnits="1" waitFor="1"/>
+    <dynamodb:create-table tableName="string" readCapacityUnits="1" writeCapacityUnits="1" primaryKeyName="num" waitFor="1"/>
 <!-- END_INCLUDE(dynamodb:create-table) -->
+
+<!-- BEGIN_INCLUDE(dynamodb:save-document) -->
+    <dynamodb:save-document tableName="string" document-ref="object"/>
+<!-- END_INCLUDE(dynamodb:save-document) -->
