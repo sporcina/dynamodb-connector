@@ -14,6 +14,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.model.*;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
 import org.mule.api.ConnectionException;
 import org.mule.api.ConnectionExceptionCode;
@@ -219,6 +220,27 @@ public class DynamoDBConnector {
 
 
     /**
+     * Acquire a document processor
+     *
+     * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:get-document}
+     *
+     * @param tableName
+     *          the name of the table to get the document from
+     * @param template
+     *          an object with the document data that DynamoDB will match against
+     * @return Object
+     *          the document from the table
+     */
+    @Processor
+    public Object getDocument(final String tableName, @Optional @Default("#[payload]") final Object template) {
+        DynamoDBMapper mapper = getDbObjectMapper(tableName);
+        return mapper.load(template);
+//        DynamoDBMapper mapper = getDbObjectMapper(tableName);
+//        return mapper.load(template.getClass(), "7f966951-9137-496f-ac10-bb7c1d29d0fe");
+    }
+
+
+    /**
      * Builds a database object mapper for a dynamodb table
      *
      * @param tableName
@@ -226,7 +248,7 @@ public class DynamoDBConnector {
      * @return DynamoDBMapper
      *          a new DynamoDB mapper for the targeted table
      */
-    private com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper getDbObjectMapper(String tableName) {
+    private DynamoDBMapper getDbObjectMapper(String tableName) {
         DynamoDBMapperConfig.TableNameOverride override = new DynamoDBMapperConfig.TableNameOverride(tableName);
         DynamoDBMapperConfig config = new DynamoDBMapperConfig(override);
         return new com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper(getDynamoDBClient(), config);

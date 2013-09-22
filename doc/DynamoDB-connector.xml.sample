@@ -5,3 +5,7 @@
 <!-- BEGIN_INCLUDE(dynamodb:save-document) -->
     <dynamodb:save-document tableName="string" document-ref="object"/>
 <!-- END_INCLUDE(dynamodb:save-document) -->
+
+<!-- BEGIN_INCLUDE(dynamodb:get-document) -->
+    <dynamodb:get-document tableName="string" template-ref="object"/>
+<!-- END_INCLUDE(dynamodb:get-document) -->

@@ -11,7 +11,7 @@
     <properties>
         <mule.version>3.4.0</mule.version>
         <mule.devkit.version>3.4.0</mule.devkit.version>
-        <junit.version>4.9</junit.version>
+        <junit.version>4.11</junit.version>
         <mockito.version>1.8.2</mockito.version>
         <jdk.version>1.6</jdk.version>
     </properties>
@@ -221,6 +221,11 @@
             <artifactId>logback-classic</artifactId>
             <version>1.0.13</version>
         </dependency>
+        <dependency>
+            <groupId>uk.com.robust-it</groupId>
+            <artifactId>cloning</artifactId>
+            <version>1.9.0</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -240,6 +245,10 @@
             <id>codehaus-releases</id>
             <name>CodeHaus Releases</name>
             <url>http://repository.codehaus.org/</url>
+        </repository>
+        <repository>
+            <id>sonatype.releases</id>
+            <url>http://oss.sonatype.org/content/repositories/releases/</url>
         </repository>
     </repositories>
 

@@ -36,4 +36,9 @@
                                 document-ref="#[payload]"/>
     </flow>
 
+    <flow name="Should_Get_Document">
+        <dynamodb:get-document tableName="${testTableName}"
+                                template-ref="#[payload]"/>
+    </flow>
+
 </mule>
