@@ -1,0 +1,15 @@
+(Scenario): Describe the activity the user is carrying out.  This is what 'done' looks like.
+(Given) some context
+(When)  some action is carried out
+(Then)  a particular set of observable consequences should obtain
+
+- See more at:
+http://guide.agilealliance.org/guide/gwt.html#sthash.EBd7VyJU.dpuf
+http://dannorth.net/whats-in-a-story/
+
+
+Here are some guidelines for writing stories.  They should be:
+
+- Conceptually simple
+- Allow for scale
+- Scenario titles should not be duplicated

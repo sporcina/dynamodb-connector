@@ -14,7 +14,6 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
 import org.mule.api.ConnectionException;
 import org.mule.api.ConnectionExceptionCode;
@@ -167,13 +166,7 @@ public class DynamoDBConnector {
     @Processor
     public String createTable(final String tableName, final Long readCapacityUnits, final Long writeCapacityUnits, final String primaryKeyName, final Integer waitFor) {
         try {
-            DescribeTableRequest describeTableRequest = new DescribeTableRequest().withTableName(tableName);
-            TableDescription description = getDynamoDBClient().describeTable(describeTableRequest).getTable();
-
-            // The table could be in several different states: CREATING, UPDATING, DELETING, & ACTIVE.
-            logger.warn(tableName + " already exists and is in the state of " + description.getTableStatus());
-            return description.getTableStatus();
-
+            return describeTable(tableName);
         } catch (ResourceNotFoundException e) {
 
             CreateTableRequest createTableRequest = new CreateTableRequest().withTableName(tableName)
@@ -186,6 +179,28 @@ public class DynamoDBConnector {
             waitForTableToBecomeAvailable(tableName, waitFor);
         }
         return TableStatus.ACTIVE.toString();
+    }
+
+    /**
+     * Acquire information about a table
+     *
+     * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:describe-table}
+     *
+     * @param tableName
+     *              title of the table
+     * @return ACTIVE
+     *              if the table already exists, or was created successfully, and responded that it is ready for requests
+     * @return Exception
+     *              if a problem was encountered
+     */
+    @Processor
+    public String describeTable(String tableName) {
+        DescribeTableRequest describeTableRequest = new DescribeTableRequest().withTableName(tableName);
+        TableDescription description = getDynamoDBClient().describeTable(describeTableRequest).getTable();
+
+        // The table could be in several different states: CREATING, UPDATING, DELETING, & ACTIVE.
+        logger.warn(tableName + " already exists and is in the state of " + description.getTableStatus());
+        return description.getTableStatus();
     }
 
 

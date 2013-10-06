@@ -31,6 +31,10 @@
                                waitFor="10"/>
     </flow>
 
+    <flow name="Should_Get_Table_Info">
+        <dynamodb:describe-table tableName="${testTableName}"/>
+    </flow>
+
     <flow name="Should_Save_Document">
         <dynamodb:save-document tableName="${testTableName}"
                                 document-ref="#[payload]"/>

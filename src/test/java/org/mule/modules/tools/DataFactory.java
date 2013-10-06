@@ -11,8 +11,7 @@ public class DataFactory {
         class ensures that the field is populated automatically.
         */
         return new FakeCustomer()
-                .setName("John Doe");
-                //.setPhone("(123)456-789")
-                //.setNotes("some notes");
+                .setName("John Doe")
+                .setPhone("(123)456-789");
     }
 }
