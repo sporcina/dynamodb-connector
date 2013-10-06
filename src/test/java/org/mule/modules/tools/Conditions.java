@@ -42,12 +42,12 @@ public class Conditions {
     }
 
     public void verify(Object flowResponsePayload) {
-        Boolean expectedResultsAchieved;
+        Boolean doTheyMatch;
         if (getIgnoreHashKey())
-            expectedResultsAchieved = getExpected().equals_IgnoreNumValue(flowResponsePayload);
+            doTheyMatch = getExpected().equals_IgnoreNumValue(flowResponsePayload);
         else
-            expectedResultsAchieved = getExpected().equals(flowResponsePayload);
+            doTheyMatch = getExpected().equals(flowResponsePayload);
 
-        Assert.assertTrue("The documents did not match", expectedResultsAchieved);
+        Assert.assertTrue("The documents did not match", doTheyMatch);
     }
 }

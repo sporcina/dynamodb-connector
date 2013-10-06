@@ -45,4 +45,10 @@
                                 template-ref="#[payload]"/>
     </flow>
 
+    <flow name="Should_Update_Document">
+        <dynamodb:update-document tableName="${testTableName}"
+                                  document-ref="#[payload]"/>
+    </flow>
+
+
 </mule>

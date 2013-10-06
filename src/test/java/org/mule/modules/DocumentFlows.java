@@ -31,4 +31,9 @@ public class DocumentFlows {
         FlowHelper flowHelper = new FlowHelper().run("Should_Get_Document").withPayload(fakeCustomer);
         return flowHelper.getFlowResponsePayload();
     }
+
+    public Object shouldUpdateDocument(FakeCustomer fakeCustomer) throws Exception {
+        FlowHelper flowHelper = new FlowHelper().run("Should_Update_Document").withPayload(fakeCustomer);
+        return flowHelper.getFlowResponsePayload();
+    }
 }

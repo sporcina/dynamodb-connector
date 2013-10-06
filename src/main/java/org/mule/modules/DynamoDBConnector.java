@@ -250,8 +250,36 @@ public class DynamoDBConnector {
     public Object getDocument(final String tableName, @Optional @Default("#[payload]") final Object template) {
         DynamoDBMapper mapper = getDbObjectMapper(tableName);
         return mapper.load(template);
-//        DynamoDBMapper mapper = getDbObjectMapper(tableName);
-//        return mapper.load(template.getClass(), "7f966951-9137-496f-ac10-bb7c1d29d0fe");
+    }
+
+    /**
+     * Update document processor
+     * <p/>
+     * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:update-document}
+     *
+     * @param tableName
+     *          The table to update
+     * @param document
+     *          The object to save to the table as a document.  If not explicitly provided, it defaults to "#[payload]".
+     * @return Object
+     *          the place that was stored
+     */
+    @Processor
+    public Object updateDocument(final String tableName, @Optional @Default("#[payload]") final Object document) {
+
+        try {
+            DynamoDBMapperConfig config = new DynamoDBMapperConfig(DynamoDBMapperConfig.SaveBehavior.UPDATE);
+            DynamoDBMapper mapper = getDbObjectMapper(tableName);
+            mapper.save(document, config);
+
+            // save does not return the modified document.  Just return the original.
+            return document;
+        } catch (Exception e) {
+            // TODO: what is the best practice for logging and reporting errors from mule connectors? - sporcina (June 20, 2013)
+            System.out.println(e.getMessage());
+        }
+
+        return null;
     }
 
 
