@@ -56,3 +56,12 @@ Given I have a repository that is ACTIVE
 And I have a saved document
 When I delete all the documents
 Then there are no documents in the repository
+
+
+Scenario: DynamoDB repository is deleted
+Meta:
+!--@skip
+Given I have DynamoDB credentials
+And I have a repository that is ACTIVE
+When I request to delete the repository
+Then the repository does not exist

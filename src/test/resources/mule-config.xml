@@ -21,13 +21,18 @@
     <!-- see com.amazonaws.regions.Regions for the enumerated region names -->
     <dynamodb:config region="US_WEST_1"
                      accessKey="insert_your_key_here"
-                     secretKey="insert_your_key_here>"/>
+                     secretKey="insert_your_key_here>"/><!-- TODO: add this functionality and test it - sporcina (Oct.13, 2013)-->
 
 
     <flow name="Should_Create_Table">
         <dynamodb:create-table tableName="${testTableName}"
                                readCapacityUnits="1" writeCapacityUnits="1"
                                primaryKeyName="num"
+                               waitFor="10"/>
+    </flow>
+
+    <flow name="Should_Delete_Table">
+        <dynamodb:delete-table tableName="${testTableName}"
                                waitFor="10"/>
     </flow>
 

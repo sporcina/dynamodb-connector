@@ -16,7 +16,6 @@ import java.io.IOException;
 @Configuration
 public class TableSteps extends Embedder {
 
-    //TestProperties testProperties = TestProperties.getInstance();
 
     @Given("I have DynamoDB credentials")
     public void haveDynamoDBCredentials() {
@@ -47,6 +46,29 @@ public class TableSteps extends Embedder {
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Failed to determine if the repository is " + state + ": "+ e.getCause() + ", " + e.getMessage());
+        }
+    }
+
+    @When("I request to delete the repository")
+    public void deleteRepository() {
+        try {
+            RepositoryFlows repositoryFlows = new RepositoryFlows();
+            repositoryFlows.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Failed to delete the repository: " + e.getCause() + ", " + e.getMessage());
+        }
+    }
+
+    @Then("the repository does not exist")
+    public void repositoryDoesNotExist() {
+        try {
+            RepositoryFlows repositoryFlows = new RepositoryFlows();
+            // TODO: I would rather not include AWS-specific items in a steps/behaviour file.  It should be lower level - sporcina (Oct.13,2013)
+            repositoryFlows.stateShouldBe("ResourceNotFoundException");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Failed to confirm that the repository was deleted: " + e.getCause() + ", " + e.getMessage());
         }
     }
 }

@@ -1,14 +1,13 @@
 package org.mule.modules;
 
+import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import org.junit.Assert;
 import org.mule.api.MuleEvent;
-import org.mule.construct.Flow;
-import org.mule.modules.samples.FakeCustomer;
 import org.mule.modules.tools.FlowHelper;
 import org.mule.tck.junit4.AbstractMuleTestCase;
-import org.mule.tck.junit4.FunctionalTestCase;
 
 import java.util.Properties;
+
 
 public class RepositoryFlows {
 
@@ -21,13 +20,31 @@ public class RepositoryFlows {
 
 
     public void create() throws Exception {
-        new FlowHelper().run("Should_Create_Table").withoutPayload();
+        try {
+            new FlowHelper().run("Should_Create_Table").withoutPayload();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+
+    public void delete() {
+        try {
+            new FlowHelper().run("Should_Delete_Table").withoutPayload();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
 
     public void stateShouldBe(String state) throws Exception {
-        MuleEvent responseEvent = new FlowHelper().run("Should_Get_Table_Info").withoutPayload();
-        Assert.assertEquals(state, responseEvent.getMessage().getPayload());
+        try {
+            MuleEvent responseEvent = new FlowHelper().run("Should_Get_Table_Info").withoutPayload();
+            Assert.assertEquals(state, responseEvent.getMessage().getPayload());
+        } catch (Exception e) {
+            // TODO: I'm not happy with this design.  Can we find a better way to determine the exception thrown? - sporcina (Oct.13,2013)
+            Assert.assertTrue("Was expecting ResourceNotFoundException, not " + e.getMessage(), e.getCause() instanceof ResourceNotFoundException);
+        }
     }
 
 
@@ -37,11 +54,11 @@ public class RepositoryFlows {
      * The creation of a table in dynamoDB can be time-consuming depending on the complexity of the table and the
      * read/write capacity requested.  The default timeout for the average test is 60 seconds, defined as
      * AbstractMuleTestCase.DEFAULT_TEST_TIMEOUT_SECS.  For this test, table creation typically takes less than a
-     * minute, but we increase the timeout to 5 minutes which will allow ample time to for the create table
-     * request to complete.
+     * minute, but we increase the timeout to 5 minutes which will allow ample time to for the create table request to
+     * complete.
      * <p/>
-     * note:  This method affects all tests in this test class.  Ultimately we would like to alter the timeout for
-     * those tests that requires it.  We have not found a good way to do that at this time.
+     * note:  This method affects all tests in this test class.  Ultimately we would like to alter the timeout for those
+     * tests that requires it.  We have not found a good way to do that at this time.
      */
     private static void increaseMaxTimeoutForTests() {
         Properties props = System.getProperties();

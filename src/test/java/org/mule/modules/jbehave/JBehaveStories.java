@@ -11,6 +11,7 @@ package org.mule.modules.jbehave;
 import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
+import org.jbehave.core.embedder.EmbedderControls;
 import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.StoryFinder;
@@ -31,6 +32,7 @@ public class JBehaveStories extends JUnitStories {
 
     //private Configuration configuration;
     private static final String STORIES = "**/*.story";
+    private static final Integer TEN_MINUTES_AS_SECONDS = 600;
 
     public JBehaveStories() {
         super();
@@ -88,6 +90,10 @@ public class JBehaveStories extends JUnitStories {
         embedderControls.doVerboseFiltering(false);
         embedderControls.useStoryTimeoutInSecs(300);
         embedderControls.useThreads(1);*/
+
+        // TODO: review how this works internally - sporcina (Oct.13,2013)
+        EmbedderControls embedderControls = configuredEmbedder().embedderControls();
+        embedderControls.useStoryTimeoutInSecs(TEN_MINUTES_AS_SECONDS);
     }
 
     @Override
