@@ -13,17 +13,19 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.*;
-
 import org.mule.api.ConnectionException;
 import org.mule.api.ConnectionExceptionCode;
 import org.mule.api.annotations.*;
 import org.mule.api.annotations.param.ConnectionKey;
-
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 
 /**
@@ -39,7 +41,6 @@ public class DynamoDBConnector {
 
     private static final int TWENTY_SECONDS = 1000 * 20;
 
-
     /**
      * Configurable
      */
@@ -50,7 +51,8 @@ public class DynamoDBConnector {
     /**
      * Set the AWS region we are targeting
      *
-     * @param region Defines the AWS region to target.  Use the strings provided in the com.amazonaws.regions.Regions class.
+     * @param region
+     *          Defines the AWS region to target.  Use the strings provided in the com.amazonaws.regions.Regions class.
      * @see com.amazonaws.regions.Regions
      */
     public void setRegion(String region) {
@@ -107,9 +109,9 @@ public class DynamoDBConnector {
         }
 
         try {
-        setDynamoDBClient(new AmazonDynamoDBClient(credentialsProvider));
-        Region regionEnum = Region.getRegion(getRegionAsEnum());
-        getDynamoDBClient().setRegion(regionEnum);
+            setDynamoDBClient(new AmazonDynamoDBClient(credentialsProvider));
+            Region regionEnum = Region.getRegion(getRegionAsEnum());
+            getDynamoDBClient().setRegion(regionEnum);
         } catch (Exception e) {
             throw new ConnectionException(ConnectionExceptionCode.UNKNOWN, "string", "string");
         }
@@ -145,23 +147,21 @@ public class DynamoDBConnector {
 
     /**
      * Create a new table
-     *
+     * <p/>
      * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:create-table}
      *
      * @param tableName
-     *              title of the table
+     *                      title of the table
      * @param readCapacityUnits
-     *              dedicated read units per second
+     *                      dedicated read units per second
      * @param writeCapacityUnits
-     *              dedicated write units per second
+     *                      dedicated write units per second
      * @param primaryKeyName
-     *              the name of the primary key for the table
+     *                      the name of the primary key for the table
      * @param waitFor
-     *              the number of minutes to wait for the table to become active
-     * @return ACTIVE
-     *              if the table already exists, or was created successfully, and responded that it is ready for requests
+     *                      the number of minutes to wait for the table to become active
      * @return Exception
-     *              if a problem was encountered
+     *         if a problem was encountered
      */
     @Processor
     public String createTable(final String tableName, final Long readCapacityUnits, final Long writeCapacityUnits, final String primaryKeyName, final Integer waitFor) {
@@ -183,13 +183,11 @@ public class DynamoDBConnector {
 
     /**
      * Acquire information about a table
-     *
+     * <p/>
      * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:describe-table}
      *
      * @param tableName
      *              title of the table
-     * @return ACTIVE
-     *              if the table already exists, or was created successfully, and responded that it is ready for requests
      * @return Exception
      *              if a problem was encountered
      */
@@ -206,15 +204,15 @@ public class DynamoDBConnector {
 
     /**
      * Save a document to a DynamoDB table
-     *
+     * <p/>
      * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:save-document}
      *
      * @param tableName
-     *          The table to update
+     *              the table to update
      * @param document
-     *          The object to save to the table as a document.  If not explicitly provided, it defaults to "#[payload]".
+     *              the object to save to the table as a document.  If not explicitly provided, it defaults to "#[payload]".
      * @return Object
-     *          the place that was stored
+     *              the place that was stored
      */
     @Processor
     public Object saveDocument(final String tableName, @Optional @Default("#[payload]") final Object document) {
@@ -236,20 +234,25 @@ public class DynamoDBConnector {
 
     /**
      * Acquire a document processor
-     *
+     * <p/>
      * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:get-document}
      *
      * @param tableName
-     *          the name of the table to get the document from
+     *              the name of the table to get the document from
      * @param template
-     *          an object with the document data that DynamoDB will match against
+     *              an object with the document data that DynamoDB will match against
      * @return Object
-     *          the document from the table
+     *              the document from the table
      */
     @Processor
     public Object getDocument(final String tableName, @Optional @Default("#[payload]") final Object template) {
-        DynamoDBMapper mapper = getDbObjectMapper(tableName);
-        return mapper.load(template);
+        try {
+            DynamoDBMapper mapper = getDbObjectMapper(tableName);
+            return mapper.load(template);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -258,11 +261,11 @@ public class DynamoDBConnector {
      * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:update-document}
      *
      * @param tableName
-     *          The table to update
+     *              the table to update
      * @param document
-     *          The object to save to the table as a document.  If not explicitly provided, it defaults to "#[payload]".
+     *              the object to save to the table as a document.  If not explicitly provided, it defaults to "#[payload]".
      * @return Object
-     *          the place that was stored
+     *              the place that was stored
      */
     @Processor
     public Object updateDocument(final String tableName, @Optional @Default("#[payload]") final Object document) {
@@ -282,14 +285,70 @@ public class DynamoDBConnector {
         return null;
     }
 
+    /**
+     * Processor to delete a document
+     * <p/>
+     * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:get-all-documents}
+     *
+     * @param tableName
+     *              the name of the table to get the document from
+     * @param template
+     *              an object with the document data that DynamoDB will match against
+     * @return Object
+     *              a list of all the documents
+     */
+    @Processor
+    public Object getAllDocuments(String tableName, @Optional @Default("#[payload]") final Object template) {
+
+        Class templateClass = template.getClass();
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        DynamoDBMapper mapper = getDbObjectMapper(tableName);
+        PaginatedScanList<Object> results = mapper.scan(templateClass, scanExpression);
+        return results;
+    }
+
+    /**
+     * Processor to delete a document
+     * <p/>
+     * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:delete-document}
+     *
+     * @param tableName
+     *              the name of the table to get the document from
+     * @param template
+     *              an object with the document data that DynamoDB will match against
+     */
+    @Processor
+    public void deleteDocument(final String tableName, @Optional @Default("#[payload]") final Object template) {
+        DynamoDBMapper mapper = getDbObjectMapper(tableName);
+        mapper.delete(template); // TODO: should we confirm that the item was deleted?  As an optional parameter? - sporcina (July 2, 2013)
+    }
+
+    /**
+     * Processor to delete a document
+     * <p/>
+     * {@sample.xml ../../../doc/DynamoDB-connector.xml.sample dynamodb:delete-all-documents}
+     *
+     * @param tableName
+     *              the name of the table to get the document from
+     * @param template
+     *              The object to use as a document.  If not explicitly provided, it defaults to "#[payload]".
+     */
+    @Processor
+    public void deleteAllDocuments(String tableName, @Optional @Default("#[payload]") final Object template) {
+        List<Object> documents = (List<Object>) getAllDocuments(tableName, template);
+        DynamoDBMapper mapper = getDbObjectMapper(tableName);
+        mapper.batchDelete(documents);
+    }
+
 
     /**
      * Builds a database object mapper for a dynamodb table
      *
      * @param tableName
-     *          the name of the table
+     *              the name of the table
      * @return DynamoDBMapper
-     *          a new DynamoDB mapper for the targeted table
+     *              a new DynamoDB mapper for the targeted table
      */
     private DynamoDBMapper getDbObjectMapper(String tableName) {
         DynamoDBMapperConfig.TableNameOverride override = new DynamoDBMapperConfig.TableNameOverride(tableName);
@@ -300,7 +359,7 @@ public class DynamoDBConnector {
 
     /**
      * Wait for the table to become active
-     *
+     * <p/>
      * DynamoDB takes some time to create a new table, depending on the complexity of the table and the requested
      * read/write capacity.  Performing any actions against the table before it is active will result in a failure.
      * This method periodically checks to see if the table is active for the requested period.
@@ -320,7 +379,8 @@ public class DynamoDBConnector {
 
         while (System.currentTimeMillis() < endTime) {
 
-            try { Thread.sleep(TWENTY_SECONDS);
+            try {
+                Thread.sleep(TWENTY_SECONDS);
             } catch (Exception e) {/*ignore sleep exceptions*/}
 
             try {

@@ -45,10 +45,24 @@
                                 template-ref="#[payload]"/>
     </flow>
 
+    <flow name="Should_Get_All_Documents">
+        <dynamodb:get-all-documents tableName="${testTableName}"
+                                    template-ref="#[payload]"/>
+    </flow>
+
     <flow name="Should_Update_Document">
         <dynamodb:update-document tableName="${testTableName}"
                                   document-ref="#[payload]"/>
     </flow>
 
+    <flow name="Should_Delete_Document">
+        <dynamodb:delete-document tableName="${testTableName}"
+                                  template-ref="#[payload]"/>
+    </flow>
+
+    <flow name="Should_Delete_All_Documents">
+        <dynamodb:delete-all-documents tableName="${testTableName}"
+                                       template-ref="#[payload]"/>
+    </flow>
 
 </mule>

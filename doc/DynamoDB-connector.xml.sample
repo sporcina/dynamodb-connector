@@ -14,6 +14,18 @@
     <dynamodb:get-document tableName="string" template-ref="object"/>
 <!-- END_INCLUDE(dynamodb:get-document) -->
 
+<!-- BEGIN_INCLUDE(dynamodb:get-all-documents) -->
+    <dynamodb:get-all-documents tableName="string" template-ref="object"/>
+<!-- END_INCLUDE(dynamodb:get-all-documents) -->
+
 <!-- BEGIN_INCLUDE(dynamodb:update-document) -->
     <dynamodb:update-document tableName="string" document-ref="object"/>
 <!-- END_INCLUDE(dynamodb:update-document) -->
+
+<!-- BEGIN_INCLUDE(dynamodb:delete-document) -->
+    <dynamodb:delete-document tableName="string" template-ref="object"/>
+<!-- END_INCLUDE(dynamodb:delete-document) -->
+
+<!-- BEGIN_INCLUDE(dynamodb:delete-all-documents) -->
+    <dynamodb:delete-all-documents tableName="string" template-ref="object"/>
+<!-- END_INCLUDE(dynamodb:delete-all-documents) -->

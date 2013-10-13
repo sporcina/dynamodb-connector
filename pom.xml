@@ -9,12 +9,19 @@
     <name>Mule Cloud Connector</name>
 
     <properties>
-        <mule.version>3.4.0</mule.version>
-        <mule.devkit.version>3.4.0</mule.devkit.version>
-        <junit.version>4.11</junit.version>
-        <mockito.version>1.8.2</mockito.version>
         <jdk.version>1.6</jdk.version>
+        <mule.version>3.4.0</mule.version>
+        <junit.version>4.11</junit.version>
         <jbehave.version>3.8</jbehave.version>
+        <mockito.version>1.8.2</mockito.version>
+        <mule.devkit.version>3.4.0</mule.devkit.version>
+
+        <!--
+        These properties correct this Maven build warning:
+        "[WARNING] File encoding has not been set, using platform encoding UTF8, i.e. build is platform dependent!"
+        -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <build>
