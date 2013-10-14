@@ -12,8 +12,10 @@
         <jdk.version>1.6</jdk.version>
         <mule.version>3.4.0</mule.version>
         <junit.version>4.11</junit.version>
+        <slf4j.version>1.7.5</slf4j.version>
         <jbehave.version>3.8</jbehave.version>
         <mockito.version>1.8.2</mockito.version>
+        <logback.version>1.0.13</logback.version>
         <mule.devkit.version>3.4.0</mule.devkit.version>
 
         <!--
@@ -200,7 +202,7 @@
             </resource>
         </resources>
     </build>
-
+    <!-- TODO: check to ensure all of these dependencies are used - sporcina (Oct.13/2013) -->
     <dependencies>
         <dependency>
             <groupId>org.mule</groupId>
@@ -254,9 +256,19 @@
             <version>1.6.0</version>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.0.13</version>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>uk.com.robust-it</groupId>

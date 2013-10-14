@@ -3,6 +3,8 @@ package org.mule.modules.tools;
 import org.mule.api.MuleEvent;
 import org.mule.construct.Flow;
 import org.mule.tck.junit4.FunctionalTestCase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -10,6 +12,7 @@ import org.mule.tck.junit4.FunctionalTestCase;
  */
 public class FlowHelper extends FunctionalTestCase {
 
+    private static final Logger logger = LoggerFactory.getLogger(FlowHelper.class);
 
     private String flowName;
     private Object payload;
@@ -20,7 +23,8 @@ public class FlowHelper extends FunctionalTestCase {
         try {
             setUpMuleContext();
         } catch (Exception e) {
-            e.printStackTrace();
+            // TODO: is getMessage() enough information for an error log? - sporcina (Oct.13,2013)
+            logger.error("Unable to setup mule context: {}", e.getMessage());
         }
     }
 
@@ -37,7 +41,7 @@ public class FlowHelper extends FunctionalTestCase {
         try {
             runFlowWithPayloadAndExpectNew();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Unable to run flow with payload: {}\nflow = {}\npayload = {}", e.getMessage(), flowName, payload.toString());
         }
 
         return this;

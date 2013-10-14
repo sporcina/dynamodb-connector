@@ -20,20 +20,12 @@ public class RepositoryFlows {
 
 
     public void create() throws Exception {
-        try {
-            new FlowHelper().run("Should_Create_Table").withoutPayload();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+        new FlowHelper().run("Should_Create_Table").withoutPayload();
     }
 
 
-    public void delete() {
-        try {
-            new FlowHelper().run("Should_Delete_Table").withoutPayload();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+    public void delete() throws Exception {
+        new FlowHelper().run("Should_Delete_Table").withoutPayload();
     }
 
 

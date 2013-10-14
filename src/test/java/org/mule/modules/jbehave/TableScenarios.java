@@ -9,12 +9,16 @@ import org.jbehave.core.reporters.StoryReporterBuilder.Format;
 import org.jbehave.core.steps.CandidateSteps;
 import org.jbehave.core.steps.InstanceStepsFactory;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
 public class TableScenarios extends JUnitStory {
+
+    private static final Logger logger = LoggerFactory.getLogger(TableScenarios.class);
 
 	@Override
 	public Configuration configuration() {
@@ -23,9 +27,8 @@ public class TableScenarios extends JUnitStory {
 			// This requires you to start Maven from the project directory
 			storyURL = new URL("file://" + System.getProperty("user.dir")
 					+ "/src/main/resources/stories/");
-            System.out.println("storyURL: " + storyURL);
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+            logger.error("Unable to build a well formed URL");
 		}
 		return new MostUsefulConfiguration().useStoryLoader(
 				new LoadFromRelativeFile(storyURL)).useStoryReporterBuilder(
@@ -44,8 +47,7 @@ public class TableScenarios extends JUnitStory {
 		try {
 			super.run();
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Unable to run the stories: {}", e.getMessage());
 		}
 	}
 }

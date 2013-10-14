@@ -54,6 +54,7 @@ public class DynamoDBConnector {
      *
      * @param region
      *         Defines the AWS region to target.  Use the strings provided in the com.amazonaws.regions.Regions class.
+     *
      * @see com.amazonaws.regions.Regions
      */
     public void setRegion(String region) {
@@ -161,8 +162,8 @@ public class DynamoDBConnector {
      *         the name of the primary key for the table
      * @param waitFor
      *         the number of minutes to wait for the table to become active
-     * @return Exception
-     *         if a problem was encountered
+     *
+     * @return Exception if a problem was encountered
      */
     @Processor
     public String createTable(final String tableName, final Long readCapacityUnits, final Long writeCapacityUnits, final String primaryKeyName, final Integer waitFor) {
@@ -193,8 +194,8 @@ public class DynamoDBConnector {
      *         title of the table
      * @param waitFor
      *         the number of minutes to wait for the table to become active
-     * @return Exception
-     *         if a problem was encountered
+     *
+     * @return Exception if a problem was encountered
      */
     @Processor
     public String deleteTable(final String tableName, final Integer waitFor) {
@@ -215,7 +216,9 @@ public class DynamoDBConnector {
      *
      * @param tableName
      *         title of the table
+     *
      * @return the state of the table
+     *
      * @throws ResourceNotFoundException
      *         if the table was not found
      */
@@ -239,8 +242,8 @@ public class DynamoDBConnector {
      *         the table to update
      * @param document
      *         the object to save to the table as a document.  If not explicitly provided, it defaults to "#[payload]".
-     * @return Object
-     *         the place that was stored
+     *
+     * @return Object the place that was stored
      */
     @Processor
     public Object saveDocument(final String tableName, @Optional @Default("#[payload]") final Object document) {
@@ -269,8 +272,8 @@ public class DynamoDBConnector {
      *         the name of the table to get the document from
      * @param template
      *         an object with the document data that DynamoDB will match against
-     * @return Object
-     *         the document from the table
+     *
+     * @return Object the document from the table
      */
     @Processor
     public Object getDocument(final String tableName, @Optional @Default("#[payload]") final Object template) {
@@ -278,9 +281,10 @@ public class DynamoDBConnector {
             DynamoDBMapper mapper = getDbObjectMapper(tableName);
             return mapper.load(template);
         } catch (Exception e) {
-            e.printStackTrace();
+            // TODO: can we add a unique identifier of the payload too? - sporcina (Oct.13,2013)
+            logger.error("Unable to get document from table \"{}\"", tableName);
         }
-        return null;
+        return null; // TODO: do we have to return null? - sporcina (Oct.13,2013)
     }
 
 
@@ -293,8 +297,8 @@ public class DynamoDBConnector {
      *         the table to update
      * @param document
      *         the object to save to the table as a document.  If not explicitly provided, it defaults to "#[payload]".
-     * @return Object
-     *         the place that was stored
+     *
+     * @return Object the place that was stored
      */
     @Processor
     public Object updateDocument(final String tableName, @Optional @Default("#[payload]") final Object document) {
@@ -324,8 +328,8 @@ public class DynamoDBConnector {
      *         the name of the table to get the document from
      * @param template
      *         an object with the document data that DynamoDB will match against
-     * @return Object
-     *         a list of all the documents
+     *
+     * @return Object a list of all the documents
      */
     @Processor
     public Object getAllDocuments(String tableName, @Optional @Default("#[payload]") final Object template) {
@@ -379,8 +383,8 @@ public class DynamoDBConnector {
      *
      * @param tableName
      *         the name of the table
-     * @return DynamoDBMapper
-     *         a new DynamoDB mapper for the targeted table
+     *
+     * @return DynamoDBMapper a new DynamoDB mapper for the targeted table
      */
     private DynamoDBMapper getDbObjectMapper(String tableName) {
         DynamoDBMapperConfig.TableNameOverride override = new DynamoDBMapperConfig.TableNameOverride(tableName);
@@ -396,8 +400,8 @@ public class DynamoDBConnector {
      * Wait for the table to become active
      * <p/>
      * DynamoDB takes some time to create a new table, depending on the complexity of the table and the requested
-     * read/write capacity.  Performing any actions against the table before it is active will result in a failure.
-     * This method periodically checks to see if the table is active for the requested wait period.
+     * read/write capacity.  Performing any actions against the table before it is active will result in a failure. This
+     * method periodically checks to see if the table is active for the requested wait period.
      *
      * @param tableName
      *         the name of the table to create

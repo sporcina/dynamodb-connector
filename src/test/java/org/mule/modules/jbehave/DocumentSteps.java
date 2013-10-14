@@ -10,6 +10,8 @@ import org.jbehave.core.embedder.Embedder;
 import org.mule.modules.DocumentFlows;
 import org.mule.modules.samples.FakeCustomer;
 import org.mule.modules.tools.Conditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.List;
  */
 @Configuration
 public class DocumentSteps extends Embedder {
+
+    private static final Logger logger = LoggerFactory.getLogger(DocumentSteps.class);
 
     private FakeCustomer document;
     private FakeCustomer updatedDocument;
@@ -35,8 +39,9 @@ public class DocumentSteps extends Embedder {
         try {
             this.document = (FakeCustomer) documentFlows.shouldSaveDocument();
         } catch (Exception e) {
-            Assert.fail("Failed to save a document: " + e.getCause() + ", " + e.getMessage());
-            e.printStackTrace();
+            String msg = "Failed to save a document: " + e.getCause() + ", " + e.getMessage();
+            Assert.fail(msg);
+            logger.error(msg);
         }
 
     }
@@ -50,8 +55,9 @@ public class DocumentSteps extends Embedder {
             FakeCustomer response = (FakeCustomer) documentFlows.shouldGetDocument(fakeCustomerWithOnlyNum);
             new Conditions().expect(document).includeTheHashKey().verify(response);
         } catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail("Failed to get document " + document.getNum() + ": " + e.getCause() + ", " + e.getMessage());
+            String msg = "Failed to get document " + document.getNum() + ": " + e.getCause() + ", " + e.getMessage();
+            Assert.fail(msg);
+            logger.error(msg);
         }
     }
 
@@ -67,8 +73,9 @@ public class DocumentSteps extends Embedder {
             DocumentFlows documentFlows = new DocumentFlows();
             documentFlows.shouldUpdateDocument(updatedDocument);
         } catch (Exception e) {
-            Assert.fail("Failed to update document " + updatedDocument.getNum() + ": " + e.getCause() + ", " + e.getMessage());
-            e.printStackTrace();
+            String msg = "Failed to update document " + updatedDocument.getNum() + ": " + e.getCause() + ", " + e.getMessage();
+            logger.error(msg);
+            Assert.fail(msg);
         }
     }
 
@@ -82,8 +89,9 @@ public class DocumentSteps extends Embedder {
             FakeCustomer response = (FakeCustomer) documentFlows.shouldGetDocument(updatedDocument);
             new Conditions().expect(updatedDocument).includeTheHashKey().verify(response);
         } catch (Exception e) {
-            Assert.fail("Failed to update document " + updatedDocument.getNum() + ": " + e.getCause() + ", " + e.getMessage());
-            e.printStackTrace();
+            String msg = "Failed to update document " + updatedDocument.getNum() + ": " + e.getCause() + ", " + e.getMessage();
+            logger.error(msg);
+            Assert.fail(msg);
         }
     }
 
@@ -93,8 +101,9 @@ public class DocumentSteps extends Embedder {
             DocumentFlows documentFlows = new DocumentFlows();
             documents = (List<FakeCustomer>)documentFlows.shouldGetAllDocuments(document);
         } catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail("Failed to get all documents: " + e.getCause() + ", " + e.getMessage());
+            String msg = "Failed to get all documents: " + e.getCause() + ", " + e.getMessage();
+            logger.error(msg);
+            Assert.fail(msg);
         }
     }
 
@@ -110,8 +119,9 @@ public class DocumentSteps extends Embedder {
             DocumentFlows documentFlows = new DocumentFlows();
             documentFlows.shouldDeleteDocument(document);
         } catch (Exception e) {
-            Assert.fail("Failed to update document " + document.getNum() + ": " + e.getCause() + ", " + e.getMessage());
-            e.printStackTrace();
+            String msg = "Failed to update document " + document.getNum() + ": " + e.getCause() + ", " + e.getMessage();
+            logger.error(msg);
+            Assert.fail(msg);
         }
     }
 
@@ -125,8 +135,9 @@ public class DocumentSteps extends Embedder {
             Object response = documentFlows.shouldGetDocument(document);
             Assert.assertTrue("A document should not be returned", response == null);
         } catch (Exception e) {
-            Assert.fail("Failed to confirm that document #" + document.getNum() + " was deleted: " + e.getCause() + ", " + e.getMessage());
-            e.printStackTrace();
+            String msg = "Failed to confirm that document #" + document.getNum() + " was deleted: " + e.getCause() + ", " + e.getMessage();
+            logger.error(msg);
+            Assert.fail(msg);
         }
     }
 
@@ -136,8 +147,9 @@ public class DocumentSteps extends Embedder {
             DocumentFlows documentFlows = new DocumentFlows();
             documentFlows.shouldDeleteAllDocuments();
         } catch (Exception e) {
-            Assert.fail("Failed to delete all documents: " + e.getCause() + ", " + e.getMessage());
-            e.printStackTrace();
+            String msg = "Failed to delete all documents: " + e.getCause() + ", " + e.getMessage();
+            logger.error(msg);
+            Assert.fail(msg);
         }
     }
 

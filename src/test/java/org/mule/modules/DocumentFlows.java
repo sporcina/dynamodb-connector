@@ -37,11 +37,11 @@ public class DocumentFlows {
         new FlowHelper().run("Should_Delete_Document").withPayloadNew(fakeCustomer).expecting(new FakeCustomer());
     }
 
-    public void shouldDeleteAllDocuments() {
+    public void shouldDeleteAllDocuments() throws Exception {
         new FlowHelper().run("Should_Delete_All_Documents").withPayloadNew(new FakeCustomer()).expecting(new FakeCustomer());
     }
 
-    public <T> Object shouldGetAllDocuments(T payload) {
+    public <T> Object shouldGetAllDocuments(T payload) throws Exception {
         List<T> list = new ArrayList<T>();
         FlowHelper flowHelper = new FlowHelper().run("Should_Get_All_Documents").withPayloadNew(payload).expecting(list);
         // TODO: need to change these calls to avoid a long tail and identical names - sporcina (Oct.12,2013)
