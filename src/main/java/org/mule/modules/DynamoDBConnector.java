@@ -22,6 +22,7 @@ import org.mule.api.annotations.*;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
+import org.mule.modules.dynamodb.exceptions.TableNeverWentActiveException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -115,7 +116,7 @@ public class DynamoDBConnector {
             Region regionEnum = Region.getRegion(getRegionAsEnum());
             getDynamoDBClient().setRegion(regionEnum);
         } catch (Exception e) {
-            throw new ConnectionException(ConnectionExceptionCode.UNKNOWN, "string", "string");
+            throw new ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage());
         }
     }
 
@@ -163,10 +164,13 @@ public class DynamoDBConnector {
      * @param waitFor
      *         the number of minutes to wait for the table to become active
      *
-     * @return Exception if a problem was encountered
+     * @return the status of the table
+     *
+     * @throws TableNeverWentActiveException
+     *         the table never became ACTIVE within the time allotted
      */
     @Processor
-    public String createTable(final String tableName, final Long readCapacityUnits, final Long writeCapacityUnits, final String primaryKeyName, final Integer waitFor) {
+    public String createTable(final String tableName, final Long readCapacityUnits, final Long writeCapacityUnits, final String primaryKeyName, final Integer waitFor) throws TableNeverWentActiveException {
         try {
             return describeTable(tableName);
         } catch (ResourceNotFoundException e) {
@@ -195,10 +199,13 @@ public class DynamoDBConnector {
      * @param waitFor
      *         the number of minutes to wait for the table to become active
      *
-     * @return Exception if a problem was encountered
+     * @return the status of the table
+     *
+     * @throws TableNeverWentActiveException
+     *         the table never became ACTIVE within the specified period of time
      */
     @Processor
-    public String deleteTable(final String tableName, final Integer waitFor) {
+    public String deleteTable(final String tableName, final Integer waitFor) throws TableNeverWentActiveException {
 
         DeleteTableRequest deleteTableRequest = new DeleteTableRequest().withTableName(tableName);
         DeleteTableResult result = getDynamoDBClient().deleteTable(deleteTableRequest);
@@ -247,19 +254,10 @@ public class DynamoDBConnector {
      */
     @Processor
     public Object saveDocument(final String tableName, @Optional @Default("#[payload]") final Object document) {
-
-        try {
-            DynamoDBMapper mapper = getDbObjectMapper(tableName);
-            mapper.save(document);
-
-            // the document is automatically updated with the data that was stored in DynamoDB
-            return document;
-        } catch (Exception e) {
-            // TODO: what is the best practice for logging and reporting errors from mule connectors? - sporcina (June 20, 2013)
-            logger.error(e.getMessage());
-        }
-
-        return null;
+        DynamoDBMapper mapper = getDbObjectMapper(tableName);
+        mapper.save(document);
+        // the document is automatically updated with the data that was stored in DynamoDB
+        return document;
     }
 
 
@@ -277,14 +275,8 @@ public class DynamoDBConnector {
      */
     @Processor
     public Object getDocument(final String tableName, @Optional @Default("#[payload]") final Object template) {
-        try {
-            DynamoDBMapper mapper = getDbObjectMapper(tableName);
-            return mapper.load(template);
-        } catch (Exception e) {
-            // TODO: can we add a unique identifier of the payload too? - sporcina (Oct.13,2013)
-            logger.error("Unable to get document from table \"{}\"", tableName);
-        }
-        return null; // TODO: do we have to return null? - sporcina (Oct.13,2013)
+        DynamoDBMapper mapper = getDbObjectMapper(tableName);
+        return mapper.load(template);
     }
 
 
@@ -303,19 +295,19 @@ public class DynamoDBConnector {
     @Processor
     public Object updateDocument(final String tableName, @Optional @Default("#[payload]") final Object document) {
 
-        try {
-            DynamoDBMapperConfig config = new DynamoDBMapperConfig(DynamoDBMapperConfig.SaveBehavior.UPDATE);
-            DynamoDBMapper mapper = getDbObjectMapper(tableName);
-            mapper.save(document, config);
+        // try {
+        DynamoDBMapperConfig config = new DynamoDBMapperConfig(DynamoDBMapperConfig.SaveBehavior.UPDATE);
+        DynamoDBMapper mapper = getDbObjectMapper(tableName);
+        mapper.save(document, config);
 
-            // save does not return the modified document.  Just return the original.
-            return document;
-        } catch (Exception e) {
-            // TODO: what is the best practice for logging and reporting errors from mule connectors? - sporcina (June 20, 2013)
-            System.out.println(e.getMessage());
-        }
+        // save does not return the modified document.  Just return the original.
+        return document;
+//        } catch (Exception e) {
+//            // TODO: what is the best practice for logging and reporting errors from mule connectors? - sporcina (June 20, 2013)
+//            System.out.println(e.getMessage());
+//        }
 
-        return null;
+        //return null;
     }
 
 
@@ -407,8 +399,11 @@ public class DynamoDBConnector {
      *         the name of the table to create
      * @param waitFor
      *         number of minutes to wait for the table
+     *
+     * @throws TableNeverWentActiveException
+     *         the table never became ACTIVE within the time allotted
      */
-    private void waitForTableToBecomeAvailable(final String tableName, final Integer waitFor) {
+    private void waitForTableToBecomeAvailable(final String tableName, final Integer waitFor) throws TableNeverWentActiveException {
 
         logger.info("Waiting for table " + tableName + " to become ACTIVE...");
 
@@ -420,7 +415,7 @@ public class DynamoDBConnector {
 
             try {
                 Thread.sleep(TWENTY_SECONDS);
-            } catch (Exception e) {/*ignore sleep exceptions*/}
+            } catch (Exception e) { /*ignore sleep exceptions*/ }
 
             try {
                 DescribeTableRequest request = new DescribeTableRequest().withTableName(tableName);
@@ -433,7 +428,7 @@ public class DynamoDBConnector {
             }
         }
 
-        throw new RuntimeException("Table " + tableName + " never went active");
+        throw new TableNeverWentActiveException("Table " + tableName + " never went active");
     }
 
 
@@ -447,8 +442,11 @@ public class DynamoDBConnector {
      *         the name of the table to create
      * @param waitFor
      *         number of minutes to wait for the table
+     *
+     * @throws TableNeverWentActiveException
+     *         the table never became ACTIVE within the time allotted
      */
-    private void waitForTableToBeDeleted(final String tableName, final Integer waitFor) {
+    private void waitForTableToBeDeleted(final String tableName, final Integer waitFor) throws TableNeverWentActiveException {
 
         logger.info("Waiting for table " + tableName + " to be DELETED...");
 
@@ -460,7 +458,7 @@ public class DynamoDBConnector {
 
             try {
                 Thread.sleep(TWENTY_SECONDS);
-            } catch (Exception e) {/*ignore sleep exceptions*/}
+            } catch (Exception e) { /*ignore sleep exceptions*/ }
 
             try {
                 DescribeTableRequest request = new DescribeTableRequest().withTableName(tableName);
@@ -473,6 +471,6 @@ public class DynamoDBConnector {
             }
         }
 
-        throw new RuntimeException("Table " + tableName + " was never deleted within the wait limit provided of " + waitFor + " minutes");
+        throw new TableNeverWentActiveException("Table " + tableName + " was never deleted within the wait limit provided of " + waitFor + " minutes");
     }
 }
