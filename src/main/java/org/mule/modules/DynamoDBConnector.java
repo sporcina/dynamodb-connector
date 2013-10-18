@@ -116,7 +116,7 @@ public class DynamoDBConnector {
             Region regionEnum = Region.getRegion(getRegionAsEnum());
             getDynamoDBClient().setRegion(regionEnum);
         } catch (Exception e) {
-            throw new ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage());
+            throw new ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage(), e);
         }
     }
 
