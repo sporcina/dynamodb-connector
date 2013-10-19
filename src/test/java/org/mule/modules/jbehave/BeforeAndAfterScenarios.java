@@ -5,21 +5,21 @@ import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.steps.Steps;
 import org.mule.modules.samples.FakeCustomer;
 
-public class BeforeAndAfterScenerios extends Steps {
+public class BeforeAndAfterScenarios extends Steps {
 
     private final FakeCustomer fakeCustomer;
 
-    public BeforeAndAfterScenerios(FakeCustomer fakeCustomer) {
+    public BeforeAndAfterScenarios(FakeCustomer fakeCustomer) {
         this.fakeCustomer = fakeCustomer;
     }
 
     @BeforeScenario
-    public void beforeScenarios() throws Exception {
+    public void beforeScenarios() {
         fakeCustomer.reset();
     }
 
     @AfterScenario
-    public void afterScenarios() throws Exception {
+    public void afterScenarios() {
         fakeCustomer.reset();
     }
 }

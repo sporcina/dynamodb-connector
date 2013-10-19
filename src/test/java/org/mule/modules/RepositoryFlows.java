@@ -26,7 +26,7 @@ public class RepositoryFlows {
     }
 
 
-    public void stateShouldBe(String state) throws Exception {
+    public void stateShouldBe(String state) {
         try {
             MuleEvent responseEvent = new FlowHelper().run("Should_Get_Table_Info").withoutPayload();
             Assert.assertEquals(state, responseEvent.getMessage().getPayload());

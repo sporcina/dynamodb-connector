@@ -103,7 +103,7 @@ public class JBehaveStories extends JUnitStories {
                 configuration(),
                 new TableSteps(),
                 new DocumentSteps(fakeCustomer),
-                new BeforeAndAfterScenerios(fakeCustomer)
+                new BeforeAndAfterScenarios(fakeCustomer)
         );
     }
 
