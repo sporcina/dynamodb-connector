@@ -16,38 +16,42 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+
 public class TableScenarios extends JUnitStory {
 
     private static final Logger logger = LoggerFactory.getLogger(TableScenarios.class);
 
-	@Override
-	public Configuration configuration() {
-		URL storyURL = null;
-		try {
-			// This requires you to start Maven from the project directory
-			storyURL = new URL("file://" + System.getProperty("user.dir")
-					+ "/src/main/resources/stories/");
-		} catch (MalformedURLException e) {
-            logger.error("Unable to build a well formed URL");
-		}
-		return new MostUsefulConfiguration().useStoryLoader(
-				new LoadFromRelativeFile(storyURL)).useStoryReporterBuilder(
-				new StoryReporterBuilder().withFormats(Format.HTML));
-	}
 
-	@Override
-	public List<CandidateSteps> candidateSteps() {
-		return new InstanceStepsFactory(configuration(), new TableSteps())
-				.createCandidateSteps();
-	}
-	
-	@Override
-	@Test
-	public void run() {
-		try {
-			super.run();
-		} catch (Throwable e) {
-			logger.error("Unable to run the stories: {}", e.getMessage());
-		}
-	}
+    @Override
+    public Configuration configuration() {
+        URL storyURL = null;
+        try {
+            // This requires you to start Maven from the project directory
+            storyURL = new URL("file://" + System.getProperty("user.dir")
+                    + "/src/main/resources/stories/");
+        } catch (MalformedURLException e) {
+            logger.error("Unable to build a well formed URL");
+        }
+        return new MostUsefulConfiguration().useStoryLoader(
+                new LoadFromRelativeFile(storyURL)).useStoryReporterBuilder(
+                new StoryReporterBuilder().withFormats(Format.HTML));
+    }
+
+
+    @Override
+    public List<CandidateSteps> candidateSteps() {
+        return new InstanceStepsFactory(configuration(), new TableSteps())
+                .createCandidateSteps();
+    }
+
+
+    @Override
+    @Test
+    public void run() {
+        try {
+            super.run();
+        } catch (Throwable e) {
+            logger.error("Unable to run the stories: {}", e.getMessage());
+        }
+    }
 }

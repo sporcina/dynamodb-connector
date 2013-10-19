@@ -14,7 +14,6 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.*;
 import org.mule.api.ConnectionException;
 import org.mule.api.ConnectionExceptionCode;
@@ -40,6 +39,7 @@ public class DynamoDBConnector {
     private static final Logger logger = LoggerFactory.getLogger(DynamoDBConnector.class);
     private static AmazonDynamoDBClient dynamoDBClient;
 
+    private static final String PAYLOAD = "#[payload]";
     private static final int TWENTY_SECONDS = 1000 * 20;
 
 
@@ -248,12 +248,12 @@ public class DynamoDBConnector {
      * @param tableName
      *         the table to update
      * @param document
-     *         the object to save to the table as a document.  If not explicitly provided, it defaults to "#[payload]".
+     *         the object to save to the table as a document.  If not explicitly provided, it defaults to PAYLOAD.
      *
      * @return Object the place that was stored
      */
     @Processor
-    public Object saveDocument(final String tableName, @Optional @Default("#[payload]") final Object document) {
+    public Object saveDocument(final String tableName, @Optional @Default(PAYLOAD) final Object document) {
         DynamoDBMapper mapper = getDbObjectMapper(tableName);
         mapper.save(document);
         // the document is automatically updated with the data that was stored in DynamoDB
@@ -274,7 +274,7 @@ public class DynamoDBConnector {
      * @return Object the document from the table
      */
     @Processor
-    public Object getDocument(final String tableName, @Optional @Default("#[payload]") final Object template) {
+    public Object getDocument(final String tableName, @Optional @Default(PAYLOAD) final Object template) {
         DynamoDBMapper mapper = getDbObjectMapper(tableName);
         return mapper.load(template);
     }
@@ -288,12 +288,12 @@ public class DynamoDBConnector {
      * @param tableName
      *         the table to update
      * @param document
-     *         the object to save to the table as a document.  If not explicitly provided, it defaults to "#[payload]".
+     *         the object to save to the table as a document.  If not explicitly provided, it defaults to PAYLOAD.
      *
      * @return Object the place that was stored
      */
     @Processor
-    public Object updateDocument(final String tableName, @Optional @Default("#[payload]") final Object document) {
+    public Object updateDocument(final String tableName, @Optional @Default(PAYLOAD) final Object document) {
 
         // try {
         DynamoDBMapperConfig config = new DynamoDBMapperConfig(DynamoDBMapperConfig.SaveBehavior.UPDATE);
@@ -324,14 +324,13 @@ public class DynamoDBConnector {
      * @return Object a list of all the documents
      */
     @Processor
-    public Object getAllDocuments(String tableName, @Optional @Default("#[payload]") final Object template) {
+    public Object getAllDocuments(String tableName, @Optional @Default(PAYLOAD) final Object template) {
 
         Class templateClass = template.getClass();
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         DynamoDBMapper mapper = getDbObjectMapper(tableName);
-        PaginatedScanList<Object> results = mapper.scan(templateClass, scanExpression);
-        return results;
+        return mapper.scan(templateClass, scanExpression);
     }
 
 
@@ -346,9 +345,9 @@ public class DynamoDBConnector {
      *         an object with the document data that DynamoDB will match against
      */
     @Processor
-    public void deleteDocument(final String tableName, @Optional @Default("#[payload]") final Object template) {
+    public void deleteDocument(final String tableName, @Optional @Default(PAYLOAD) final Object template) {
         DynamoDBMapper mapper = getDbObjectMapper(tableName);
-        mapper.delete(template); // TODO: should we confirm that the item was deleted?  As an optional parameter? - sporcina (July 2, 2013)
+        mapper.delete(template);
     }
 
 
@@ -360,10 +359,10 @@ public class DynamoDBConnector {
      * @param tableName
      *         the name of the table to get the document from
      * @param template
-     *         the object to use as a document.  If not explicitly provided, it defaults to "#[payload]".
+     *         the object to use as a document.  If not explicitly provided, it defaults to PAYLOAD.
      */
     @Processor
-    public void deleteAllDocuments(String tableName, @Optional @Default("#[payload]") final Object template) {
+    public void deleteAllDocuments(String tableName, @Optional @Default(PAYLOAD) final Object template) {
         List<Object> documents = (List<Object>) getAllDocuments(tableName, template);
         DynamoDBMapper mapper = getDbObjectMapper(tableName);
         mapper.batchDelete(documents);

@@ -4,9 +4,6 @@ import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import org.junit.Assert;
 import org.mule.api.MuleEvent;
 import org.mule.modules.tools.FlowHelper;
-import org.mule.tck.junit4.AbstractMuleTestCase;
-
-import java.util.Properties;
 
 
 public class RepositoryFlows {
@@ -52,9 +49,9 @@ public class RepositoryFlows {
      * note:  This method affects all tests in this test class.  Ultimately we would like to alter the timeout for those
      * tests that requires it.  We have not found a good way to do that at this time.
      */
-    private static void increaseMaxTimeoutForTests() {
+    /*private static void increaseMaxTimeoutForTests() {
         Properties props = System.getProperties();
         props.setProperty(AbstractMuleTestCase.TEST_TIMEOUT_SYSTEM_PROPERTY, "300"); // 300 seconds = 5 minutes
         System.setProperties(props);
-    }
+    }*/
 }

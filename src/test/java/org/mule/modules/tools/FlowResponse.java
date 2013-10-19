@@ -1,6 +1,5 @@
 package org.mule.modules.tools;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.mule.transport.NullPayload;
 
 /**
