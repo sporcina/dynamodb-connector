@@ -12,16 +12,16 @@ import javax.validation.constraints.NotNull;
 /**
  * TODO: need a description
  */
-public class FlowHelper extends FunctionalTestCase {
+public class FlowBuilder extends FunctionalTestCase {
 
-    private static final Logger logger = LoggerFactory.getLogger(FlowHelper.class);
+    private static final Logger logger = LoggerFactory.getLogger(FlowBuilder.class);
 
     private String flowName;
     private Object payload;
     private FlowResponse flowResponse;
 
 
-    private FlowHelper(String flowName) {
+    private FlowBuilder(String flowName) {
         try {
             setUpMuleContext();
         } catch (Exception e) {
@@ -33,12 +33,12 @@ public class FlowHelper extends FunctionalTestCase {
     }
 
 
-    public static FlowHelper run(@NotNull String flowName) {
-        return new FlowHelper(flowName);
+    public static FlowBuilder run(@NotNull String flowName) {
+        return new FlowBuilder(flowName);
     }
 
 
-    public <T> FlowHelper expectingType(@NotNull T responseType) {
+    public <T> FlowBuilder expectingType(@NotNull T responseType) {
         this.flowResponse = new FlowResponse<T>();
 
         try {
@@ -56,7 +56,7 @@ public class FlowHelper extends FunctionalTestCase {
     }
 
 
-    public <T> FlowHelper withPayload(@NotNull T payload) {
+    public <T> FlowBuilder withPayload(@NotNull T payload) {
         this.payload = payload;
         return this;
     }
