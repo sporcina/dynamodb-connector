@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
  */
 public class FlowBuilder extends FunctionalTestCase {
 
-    private static final Logger logger = LoggerFactory.getLogger(FlowBuilder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FlowBuilder.class);
 
     private String flowName;
     private Object payload;
@@ -26,7 +26,7 @@ public class FlowBuilder extends FunctionalTestCase {
             setUpMuleContext();
         } catch (Exception e) {
             // TODO: is getMessage() enough information for an error log? - sporcina (Oct.13,2013)
-            logger.error("Unable to setup mule context: {}", e.getMessage());
+            LOG.error("Unable to setup mule context: {}", e.getMessage());
         }
 
         this.flowName = flowName;
@@ -44,7 +44,7 @@ public class FlowBuilder extends FunctionalTestCase {
         try {
             runFlowWithPayloadAndExpectNew();
         } catch (Exception e) {
-            logger.error("Unable to run flow with payload: {}\nflow = {}\npayload = {}", e.getMessage(), flowName, payload.toString());
+            LOG.error("Unable to run flow with payload: {}\nflow = {}\npayload = {}", e.getMessage(), flowName, payload.toString());
         }
 
         return this;
@@ -105,7 +105,7 @@ public class FlowBuilder extends FunctionalTestCase {
         try {
             runFlowWithPayloadAndExpectNew();
         } catch (Exception e) {
-            logger.error("Unable to run flow with payload: {}\nflow = {}\npayload = {}", e.getMessage(), flowName, payload.toString());
+            LOG.error("Unable to run flow with payload: {}\nflow = {}\npayload = {}", e.getMessage(), flowName, payload.toString());
         }
 
         return flowResponse.getResponse();

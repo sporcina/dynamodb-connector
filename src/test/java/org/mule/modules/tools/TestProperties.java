@@ -14,7 +14,7 @@ import java.util.Properties;
  */
 public class TestProperties {
 
-    private static final Logger logger = LoggerFactory.getLogger(TestProperties.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TestProperties.class);
 
     private static TestProperties instance = null;
     private static Properties properties;
@@ -24,7 +24,7 @@ public class TestProperties {
         try {
             properties = PropertiesLoaderUtils.loadProperties(resource);
         } catch (IOException e) {
-            logger.error("Unable to load test.properties file");
+            LOG.error("Unable to load test.properties file");
         }
     }
 

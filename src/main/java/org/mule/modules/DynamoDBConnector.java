@@ -37,7 +37,7 @@ import java.util.List;
 @Connector(name = "dynamodb", schemaVersion = "1.0-SNAPSHOT")
 public class DynamoDBConnector {
 
-    private static final Logger logger = LoggerFactory.getLogger(DynamoDBConnector.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DynamoDBConnector.class);
     private static AmazonDynamoDBClient dynamoDBClient;
 
     private static final String PAYLOAD = "#[payload]";
@@ -112,7 +112,7 @@ public class DynamoDBConnector {
         try {
             credentialsProvider.getCredentials();
         } catch (AmazonClientException e) {
-            logger.warn("AWSCredentials.properties file was not found.  Attempting to acquire credentials from the default provider chain.");
+            LOG.warn("AWSCredentials.properties file was not found.  Attempting to acquire credentials from the default provider chain.");
             credentialsProvider = new DefaultAWSCredentialsProviderChain();
         }
 
@@ -243,7 +243,7 @@ public class DynamoDBConnector {
         TableDescription description = getDynamoDBClient().describeTable(describeTableRequest).getTable();
 
         // The table could be in several different states: CREATING, UPDATING, DELETING, & ACTIVE.
-        logger.warn(tableName + " already exists and is in the state of " + description.getTableStatus());
+        LOG.warn(tableName + " already exists and is in the state of " + description.getTableStatus());
         return description.getTableStatus();
     }
 
@@ -412,7 +412,7 @@ public class DynamoDBConnector {
      */
     private void waitForTableToBecomeAvailable(final String tableName, final Integer waitFor) throws TableNeverWentActiveException {
 
-        logger.info("Waiting for table " + tableName + " to become ACTIVE...");
+        LOG.info("Waiting for table " + tableName + " to become ACTIVE...");
 
         final long millisecondsToWaitFor = (waitFor * 60 * 1000);
         final long startTime = System.currentTimeMillis();
@@ -428,7 +428,7 @@ public class DynamoDBConnector {
                 DescribeTableRequest request = new DescribeTableRequest().withTableName(tableName);
                 TableDescription tableDescription = getDynamoDBClient().describeTable(request).getTable();
                 String tableStatus = tableDescription.getTableStatus();
-                logger.info("  - current state: " + tableStatus);
+                LOG.info("  - current state: " + tableStatus);
                 if (tableStatus.equals(TableStatus.ACTIVE.toString())) return;
             } catch (AmazonServiceException ase) {
                 if (!ase.getErrorCode().equalsIgnoreCase("ResourceNotFoundException")) throw ase;
@@ -455,7 +455,7 @@ public class DynamoDBConnector {
      */
     private void waitForTableToBeDeleted(final String tableName, final Integer waitFor) throws TableNeverWentActiveException {
 
-        logger.info("Waiting for table " + tableName + " to be DELETED...");
+        LOG.info("Waiting for table " + tableName + " to be DELETED...");
 
         final long millisecondsToWaitFor = (waitFor * 60 * 1000);
         final long startTime = System.currentTimeMillis();
@@ -471,7 +471,7 @@ public class DynamoDBConnector {
                 DescribeTableRequest request = new DescribeTableRequest().withTableName(tableName);
                 TableDescription tableDescription = getDynamoDBClient().describeTable(request).getTable();
                 String tableStatus = tableDescription.getTableStatus();
-                logger.info("  - current state: " + tableStatus);
+                LOG.info("  - current state: " + tableStatus);
             } catch (ResourceNotFoundException e) {
                 // the table was successfully deleted
                 return;

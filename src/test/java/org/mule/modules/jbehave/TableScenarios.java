@@ -19,7 +19,7 @@ import java.util.List;
 
 public class TableScenarios extends JUnitStory {
 
-    private static final Logger logger = LoggerFactory.getLogger(TableScenarios.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TableScenarios.class);
 
 
     @Override
@@ -30,7 +30,7 @@ public class TableScenarios extends JUnitStory {
             storyURL = new URL("file://" + System.getProperty("user.dir")
                     + "/src/main/resources/stories/");
         } catch (MalformedURLException e) {
-            logger.error("Unable to build a well formed URL");
+            LOG.error("Unable to build a well formed URL");
         }
         return new MostUsefulConfiguration().useStoryLoader(
                 new LoadFromRelativeFile(storyURL)).useStoryReporterBuilder(
@@ -51,7 +51,7 @@ public class TableScenarios extends JUnitStory {
         try {
             super.run();
         } catch (Throwable e) {
-            logger.error("Unable to run the stories: {}", e.getMessage());
+            LOG.error("Unable to run the stories: {}", e.getMessage());
         }
     }
 }

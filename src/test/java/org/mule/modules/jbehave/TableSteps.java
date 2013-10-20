@@ -20,7 +20,7 @@ import java.io.IOException;
 @Configuration
 public class TableSteps extends Embedder {
 
-    private static final Logger logger = LoggerFactory.getLogger(TableSteps.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TableSteps.class);
 
 
     @Given("I have DynamoDB credentials")
@@ -40,7 +40,7 @@ public class TableSteps extends Embedder {
             repositoryFlows.create();
         } catch (Exception e) {
             String msg = "Failed to request new repository: " + e.getCause() + ", " + e.getMessage();
-            logger.error(msg);
+            LOG.error(msg);
             Assert.fail(msg);
         }
     }
@@ -54,7 +54,7 @@ public class TableSteps extends Embedder {
             repositoryFlows.stateShouldBe(state);
         } catch (Exception e) {
             String msg = "Failed to determine if the repository is " + state + ": " + e.getCause() + ", " + e.getMessage();
-            logger.error(msg);
+            LOG.error(msg);
             Assert.fail(msg);
         }
     }
@@ -67,7 +67,7 @@ public class TableSteps extends Embedder {
             repositoryFlows.delete();
         } catch (Exception e) {
             String msg = "Failed to delete the repository: " + e.getCause() + ", " + e.getMessage();
-            logger.error(msg);
+            LOG.error(msg);
             Assert.fail(msg);
         }
     }
@@ -81,7 +81,7 @@ public class TableSteps extends Embedder {
             repositoryFlows.stateShouldBe("ResourceNotFoundException");
         } catch (Exception e) {
             String msg = "Failed to confirm that the repository was deleted: " + e.getCause() + ", " + e.getMessage();
-            logger.error(msg);
+            LOG.error(msg);
             Assert.fail(msg);
         }
     }

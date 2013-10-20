@@ -22,7 +22,7 @@ import java.util.List;
 @Configuration
 public class DocumentSteps extends Embedder {
 
-    private static final Logger logger = LoggerFactory.getLogger(DocumentSteps.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentSteps.class);
 
     private FakeCustomer document;
     private FakeCustomer updatedDocument;
@@ -41,7 +41,7 @@ public class DocumentSteps extends Embedder {
         } catch (Exception e) {
             String msg = "Failed to save a document: " + e.getCause() + ", " + e.getMessage();
             Assert.fail(msg);
-            logger.error(msg);
+            LOG.error(msg);
         }
 
     }
@@ -57,7 +57,7 @@ public class DocumentSteps extends Embedder {
         } catch (Exception e) {
             String msg = "Failed to get document " + document.getNum() + ": " + e.getCause() + ", " + e.getMessage();
             Assert.fail(msg);
-            logger.error(msg);
+            LOG.error(msg);
         }
     }
 
@@ -74,7 +74,7 @@ public class DocumentSteps extends Embedder {
             documentFlows.shouldUpdateDocument(updatedDocument);
         } catch (Exception e) {
             String msg = "Failed to update document " + updatedDocument.getNum() + ": " + e.getCause() + ", " + e.getMessage();
-            logger.error(msg);
+            LOG.error(msg);
             Assert.fail(msg);
         }
     }
@@ -90,7 +90,7 @@ public class DocumentSteps extends Embedder {
             new Conditions().expect(updatedDocument).includeTheHashKey().verify(response);
         } catch (Exception e) {
             String msg = "Failed to update document " + updatedDocument.getNum() + ": " + e.getCause() + ", " + e.getMessage();
-            logger.error(msg);
+            LOG.error(msg);
             Assert.fail(msg);
         }
     }
@@ -102,7 +102,7 @@ public class DocumentSteps extends Embedder {
             documents = (List<FakeCustomer>)documentFlows.shouldGetAllDocuments(document);
         } catch (Exception e) {
             String msg = "Failed to get all documents: " + e.getCause() + ", " + e.getMessage();
-            logger.error(msg);
+            LOG.error(msg);
             Assert.fail(msg);
         }
     }
@@ -120,7 +120,7 @@ public class DocumentSteps extends Embedder {
             documentFlows.shouldDeleteDocument(document);
         } catch (Exception e) {
             String msg = "Failed to update document " + document.getNum() + ": " + e.getCause() + ", " + e.getMessage();
-            logger.error(msg);
+            LOG.error(msg);
             Assert.fail(msg);
         }
     }
@@ -136,7 +136,7 @@ public class DocumentSteps extends Embedder {
             Assert.assertTrue("A document should not be returned", response == null);
         } catch (Exception e) {
             String msg = "Failed to confirm that document #" + document.getNum() + " was deleted: " + e.getCause() + ", " + e.getMessage();
-            logger.error(msg);
+            LOG.error(msg);
             Assert.fail(msg);
         }
     }
@@ -148,7 +148,7 @@ public class DocumentSteps extends Embedder {
             documentFlows.shouldDeleteAllDocuments();
         } catch (Exception e) {
             String msg = "Failed to delete all documents: " + e.getCause() + ", " + e.getMessage();
-            logger.error(msg);
+            LOG.error(msg);
             Assert.fail(msg);
         }
     }

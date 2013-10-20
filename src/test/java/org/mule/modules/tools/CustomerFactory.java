@@ -3,7 +3,7 @@ package org.mule.modules.tools;
 
 import org.mule.modules.samples.FakeCustomer;
 
-public class CustomerFactory {
+public final class CustomerFactory {
 
     private CustomerFactory() {}
 

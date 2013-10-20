@@ -105,7 +105,8 @@ public class FakeCustomer {
                 .append(getName(), fakeCustomer.getName())
                 .append(getPhone(), fakeCustomer.getPhone());
 
-        if (checkNum) builder.append(getNum(), fakeCustomer.getNum());
+        if (checkNum)
+            builder.append(getNum(), fakeCustomer.getNum());
 
         return builder.isEquals();
     }
