@@ -6,6 +6,8 @@ import org.mule.tck.junit4.FunctionalTestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
+
 
 /**
  * TODO: need a description
@@ -31,12 +33,12 @@ public class FlowHelper extends FunctionalTestCase {
     }
 
 
-    public static FlowHelper run(String flowName) {
+    public static FlowHelper run(@NotNull String flowName) {
         return new FlowHelper(flowName);
     }
 
 
-    public <T> FlowHelper expectingType(T responseType) {
+    public <T> FlowHelper expectingType(@NotNull T responseType) {
         this.flowResponse = new FlowResponse<T>();
 
         try {
@@ -54,7 +56,7 @@ public class FlowHelper extends FunctionalTestCase {
     }
 
 
-    public <T> FlowHelper withPayload(T payload) {
+    public <T> FlowHelper withPayload(@NotNull T payload) {
         this.payload = payload;
         return this;
     }

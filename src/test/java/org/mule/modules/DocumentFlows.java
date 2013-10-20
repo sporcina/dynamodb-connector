@@ -1,7 +1,7 @@
 package org.mule.modules;
 
 import org.mule.modules.samples.FakeCustomer;
-import org.mule.modules.tools.DataFactory;
+import org.mule.modules.tools.CustomerFactory;
 import org.mule.modules.tools.FlowHelper;
 
 import javax.validation.constraints.NotNull;
@@ -13,7 +13,7 @@ public class DocumentFlows {
 
     @NotNull
     public Object shouldSaveDocument() {
-        FakeCustomer payload = DataFactory.createFakeCustomer();
+        FakeCustomer payload = CustomerFactory.createFakeCustomer();
         return FlowHelper.run("Should_Save_Document")
                 .withPayload(payload)
                 .expectingType(new FakeCustomer())

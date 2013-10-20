@@ -3,9 +3,9 @@ package org.mule.modules.tools;
 
 import org.mule.modules.samples.FakeCustomer;
 
-public class DataFactory {
+public class CustomerFactory {
 
-    private DataFactory() {}
+    private CustomerFactory() {}
 
     public static FakeCustomer createFakeCustomer() {
         /*
