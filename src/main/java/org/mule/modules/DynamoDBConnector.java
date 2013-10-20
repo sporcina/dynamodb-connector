@@ -178,7 +178,13 @@ public class DynamoDBConnector {
      */
     @NotNull
     @Processor
-    public String createTable(@NotNull final String tableName, @NotNull final Long readCapacityUnits, @NotNull final Long writeCapacityUnits, @NotNull final String primaryKeyName, @NotNull final Integer waitFor) throws TableNeverWentActiveException {
+    public String createTable(@NotNull final String tableName,
+                              @NotNull final Long readCapacityUnits,
+                              @NotNull final Long writeCapacityUnits,
+                              @NotNull final String primaryKeyName,
+                              @NotNull final Integer waitFor)
+            throws TableNeverWentActiveException {
+
         try {
             return describeTable(tableName);
         } catch (ResourceNotFoundException e) {
@@ -302,20 +308,12 @@ public class DynamoDBConnector {
      */
     @Processor
     public Object updateDocument(final String tableName, @Optional @Default(PAYLOAD) final Object document) {
-
-        // try {
         DynamoDBMapperConfig config = new DynamoDBMapperConfig(DynamoDBMapperConfig.SaveBehavior.UPDATE);
         DynamoDBMapper mapper = getDbObjectMapper(tableName);
         mapper.save(document, config);
 
         // save does not return the modified document.  Just return the original.
         return document;
-//        } catch (Exception e) {
-//            // TODO: what is the best practice for logging and reporting errors from mule connectors? - sporcina (June 20, 2013)
-//            System.out.println(e.getMessage());
-//        }
-
-        //return null;
     }
 
 
@@ -427,11 +425,17 @@ public class DynamoDBConnector {
             try {
                 DescribeTableRequest request = new DescribeTableRequest().withTableName(tableName);
                 TableDescription tableDescription = getDynamoDBClient().describeTable(request).getTable();
+
                 String tableStatus = tableDescription.getTableStatus();
                 LOG.info("  - current state: " + tableStatus);
-                if (tableStatus.equals(TableStatus.ACTIVE.toString())) return;
+                if (tableStatus.equals(TableStatus.ACTIVE.toString())) {
+                    return;
+                }
+
             } catch (AmazonServiceException ase) {
-                if (!ase.getErrorCode().equalsIgnoreCase("ResourceNotFoundException")) throw ase;
+                if (!ase.getErrorCode().equalsIgnoreCase("ResourceNotFoundException")) {
+                    throw ase;
+                }
             }
         }
 

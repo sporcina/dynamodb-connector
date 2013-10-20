@@ -7,4 +7,8 @@ public class TableNeverWentActiveException extends Exception {
     public TableNeverWentActiveException(String message) {
         super(message);
     }
+
+    public TableNeverWentActiveException(String message, Throwable throwable) {
+        super(message, throwable);
+    }
 }
