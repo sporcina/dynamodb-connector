@@ -25,6 +25,7 @@ import org.mule.modules.dynamodb.exceptions.TableNeverWentActiveException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -58,7 +59,7 @@ public class DynamoDBConnector {
      *
      * @see com.amazonaws.regions.Regions
      */
-    public void setRegion(String region) {
+    public void setRegion(@NotNull String region) {
         this.region = region;
     }
 
@@ -71,21 +72,24 @@ public class DynamoDBConnector {
     }
 
 
+    @NotNull
     private Regions getRegionAsEnum() {
         return Regions.valueOf(getRegion());
     }
 
 
+    @NotNull
     private static AmazonDynamoDBClient getDynamoDBClient() {
         return dynamoDBClient;
     }
 
 
-    private static void setDynamoDBClient(AmazonDynamoDBClient dynamoDBClient) {
+    private static void setDynamoDBClient(@NotNull AmazonDynamoDBClient dynamoDBClient) {
         DynamoDBConnector.dynamoDBClient = dynamoDBClient;
     }
 
 
+    @NotNull
     private static Boolean isDynamoDBClientConnected() {
         return getDynamoDBClient() != null;
     }
@@ -101,7 +105,8 @@ public class DynamoDBConnector {
      */
     @Connect
     // TODO: try this => @Default (value = Query.MILES) @Optional String unit
-    public void connect(@ConnectionKey String accessKey, String secretKey) throws ConnectionException {
+    // TODO: need to leverage the accessKey and secretKey fields - sporcina (Oct.19,2013)
+    public void connect(@NotNull @ConnectionKey String accessKey, @NotNull String secretKey) throws ConnectionException {
 
         AWSCredentialsProvider credentialsProvider = new ClasspathPropertiesFileCredentialsProvider();
         try {
@@ -133,6 +138,7 @@ public class DynamoDBConnector {
     /**
      * Are we connected to DynamoDB?
      */
+    @NotNull
     @ValidateConnection
     public boolean isConnected() {
         return isDynamoDBClientConnected();
@@ -142,6 +148,7 @@ public class DynamoDBConnector {
     /**
      * A unique identifier for the connection, used for logging and debugging
      */
+    @NotNull
     @ConnectionIdentifier
     public String connectionId() {
         return "AWS DynamoDB Mule Connector";
@@ -169,8 +176,9 @@ public class DynamoDBConnector {
      * @throws TableNeverWentActiveException
      *         the table never became ACTIVE within the time allotted
      */
+    @NotNull
     @Processor
-    public String createTable(final String tableName, final Long readCapacityUnits, final Long writeCapacityUnits, final String primaryKeyName, final Integer waitFor) throws TableNeverWentActiveException {
+    public String createTable(@NotNull final String tableName, @NotNull final Long readCapacityUnits, @NotNull final Long writeCapacityUnits, @NotNull final String primaryKeyName, @NotNull final Integer waitFor) throws TableNeverWentActiveException {
         try {
             return describeTable(tableName);
         } catch (ResourceNotFoundException e) {

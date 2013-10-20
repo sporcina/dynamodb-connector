@@ -16,27 +16,28 @@ public class FlowHelper extends FunctionalTestCase {
 
     private String flowName;
     private Object payload;
-    private FlowResponse response;
+    private FlowResponse flowResponse;
 
 
-    public FlowHelper() {
+    private FlowHelper(String flowName) {
         try {
             setUpMuleContext();
         } catch (Exception e) {
             // TODO: is getMessage() enough information for an error log? - sporcina (Oct.13,2013)
             logger.error("Unable to setup mule context: {}", e.getMessage());
         }
-    }
 
-
-    public FlowHelper run(String flowName) {
         this.flowName = flowName;
-        return this;
     }
 
 
-    public <T> FlowHelper expecting(T responseType) {
-        this.response = new FlowResponse<T>();
+    public static FlowHelper run(String flowName) {
+        return new FlowHelper(flowName);
+    }
+
+
+    public <T> FlowHelper expectingType(T responseType) {
+        this.flowResponse = new FlowResponse<T>();
 
         try {
             runFlowWithPayloadAndExpectNew();
@@ -53,7 +54,7 @@ public class FlowHelper extends FunctionalTestCase {
     }
 
 
-    public <T> FlowHelper withPayloadNew(T payload) {
+    public <T> FlowHelper withPayload(T payload) {
         this.payload = payload;
         return this;
     }
@@ -76,7 +77,7 @@ public class FlowHelper extends FunctionalTestCase {
         Flow flow = lookupFlowConstruct(flowName);
         MuleEvent event = FunctionalTestCase.getTestEvent(payload);
         MuleEvent responseEvent = flow.process(event);
-        response.setResponse(responseEvent.getMessage().getPayload());
+        flowResponse.setResponse(responseEvent.getMessage().getPayload());
     }
 
 
@@ -97,7 +98,14 @@ public class FlowHelper extends FunctionalTestCase {
     }
 
 
-    public FlowResponse getResponse() {
-        return response;
+    public Object execute() {
+
+        try {
+            runFlowWithPayloadAndExpectNew();
+        } catch (Exception e) {
+            logger.error("Unable to run flow with payload: {}\nflow = {}\npayload = {}", e.getMessage(), flowName, payload.toString());
+        }
+
+        return flowResponse.getResponse();
     }
 }

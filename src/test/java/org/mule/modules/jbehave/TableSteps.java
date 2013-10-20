@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 
@@ -47,7 +48,7 @@ public class TableSteps extends Embedder {
 
     @Given("I have a repository that is $state")
     @Then("I have a repository that is $state")
-    public void haveRepository(String state) throws IOException {
+    public void haveRepository(@NotNull String state) throws IOException {
         try {
             RepositoryFlows repositoryFlows = new RepositoryFlows();
             repositoryFlows.stateShouldBe(state);
