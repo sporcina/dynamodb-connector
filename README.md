@@ -31,12 +31,14 @@ The project will build and execute the acceptance tests automatically.
 Running Tests Independently
 ===========================
 Windows Command Prompt or Mac Terminal
-"mvn integration-test”
+Execute "mvn integration-test” in the root folder of the project.
 
-Within the IDE
-Execute "JBehaveStories.java".  For example in
+![Alt text](/readme_images/Running_Tests_From_Terminal.png "Optional title")
 
-![Alt text](/readme_images/Execute_Stories_In_Intellij.png "Optional title")
+Within your IDE
+Execute "JBehaveStories.java".  For example in IntelliJ you can right-click on the file and run or debug it:
+
+![Alt text](/readme_images/Execute_Stories_In_IntelliJ.png "Optional title")
 
 
 Important Files
