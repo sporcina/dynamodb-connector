@@ -20,6 +20,9 @@ AWS access and security keys:
         accessKey = <insert your key here>
         secretKey = <insert your key here>
 
+If you do not know your keys, you can go here for more information:
+http://docs.aws.amazon.com/AWSSecurityCredentials/1.0/AboutAWSCredentials.html#AccessKeys
+
 Building
 ========
 1. Download the code and navigate to the root folder that houses the pom.xml file.
