@@ -80,3 +80,6 @@ http://aws.amazon.com/dynamodb/
 Everything you need to know about getting started with Mule can be found here:
 http://www.mulesoft.org/documentation/display/MULE3INTRO/Home
 
+Icons used for this connector can be found here:
+http://aws.amazon.com/architecture/icons/
+
