@@ -2,3 +2,4 @@
 target/*
 *.iml
 src/test/resources/AwsCredentials.properties
+src/test/resources/AwsCredentials.properties
