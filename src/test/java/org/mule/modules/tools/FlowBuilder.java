@@ -16,7 +16,7 @@ public class FlowBuilder extends FunctionalTestCase {
 
     private static final Logger LOG = LoggerFactory.getLogger(FlowBuilder.class);
 
-    private String flowName;
+    private final String flowName;
     private Object payload;
     private FlowResponse flowResponse;
 

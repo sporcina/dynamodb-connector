@@ -48,7 +48,7 @@ public class TableSteps extends Embedder {
 
     @Given("I have a repository that is $state")
     @Then("I have a repository that is $state")
-    public void haveRepository(@NotNull String state) throws IOException {
+    public void haveRepository(@NotNull String state) {
         try {
             RepositoryFlows repositoryFlows = new RepositoryFlows();
             repositoryFlows.stateShouldBe(state);
