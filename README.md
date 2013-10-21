@@ -25,6 +25,8 @@ Building
 1. Download the code and navigate to the root folder that houses the pom.xml file.
 2. Enter "mvn clean install".
 
+![Alt text](/readme_images/Building_From_Terminal.png "Building from the Mac Terminal")
+
 The project will build and execute the acceptance tests automatically.
 
 
@@ -33,35 +35,35 @@ Running Tests Independently
 Windows Command Prompt or Mac Terminal
 Execute "mvn integration-test” in the root folder of the project.
 
-![Alt text](/readme_images/Running_Tests_From_Terminal.png "Optional title")
+![Alt text](/readme_images/Running_Tests_From_Terminal.png "Running acceptance tests from Mac Terminal")
 
 Within your IDE
 Execute "JBehaveStories.java".  For example in IntelliJ you can right-click on the file and run or debug it:
 
-![Alt text](/readme_images/Execute_Stories_In_IntelliJ.png "Optional title")
+![Alt text](/readme_images/Execute_Stories_In_IntelliJ.png "Executing the acceptance tests from Intelli-J")
 
 
 Important Files
 ===============
 
-./LICENSE.md:
+*./LICENSE.md* <br/>
 The open source license text for this project.
 
-./pom.xml:
+*./pom.xml* <br/>
 A maven project descriptor that describes how to build this module.
 
-./src/test/resources/org/mule/modules/jbehave/stories/StorageManagement.story
+*./src/test/resources/org/mule/modules/jbehave/stories/StorageManagement.story* <br/>
 The JBehave acceptance tests.
 
-./src/test/resources/mule-config.xml
+*./src/test/resources/mule-config.xml* <br/>
 The mule configuration for the tests.  Review this to understand how to leverage the connector from Mule.
 
-./src/test/java/org/mule/modules/jbehave/JBehaveStories.java
+*./src/test/java/org/mule/modules/jbehave/JBehaveStories.java* <br/>
 Configuration and execution of the JBehave acceptance tests.  You can execute this in your IDE to run the tests.
 Maven will automatically execute these test when building from the Windows command prompt or Mac Terminal window
 (e.g. "mvn clean install").
 
-./src/main/java/org/mule/modules/DynamoDBConnector.java
+*./src/main/java/org/mule/modules/DynamoDBConnector.java* <br/>
 The Mule connector itself.
 
 
