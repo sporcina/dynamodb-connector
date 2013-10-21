@@ -1,38 +1,75 @@
 
-WELCOME
+Welcome
 =======
-Congratulations you have just created a new Mule Cloud Connector!
+The "DynamoDB Mule Connector" is a wrapper around the AWS Java libraries allowing Mule flows to perform CRUD operations
+against AWS DynamoDB tables.  This wrapper allows you to easily interact with AWS tables through Mule.  You can also
+leverage the connector directly through Java if you desire.
 
-This wizard created a number of new classes and resources useful for Mule
-modules.  Each of the created files contains documentation and TODO
-items where necessary.  Here is an overview of what was created.
 
-./pom.xml:
-A maven project descriptor that describes how to build this module.
+Setup
+=====
+
+To run the tests create the file "AwsCredentials.properties" in your test resources folder
+(e.g. /src/test/resources/AwsCredentials.properties).  Place the following content in the file, adding your
+AWS access and security keys:
+
+
+        # Fill in your AWS Access Key ID and Secret Access Key
+        # http://aws.amazon.com/security-credentials
+
+        accessKey = <insert your key here>
+        secretKey = <insert your key here>
+
+Building
+========
+1. Download the code and navigate to the root folder that houses the pom.xml file.
+2. Enter "mvn clean install".
+
+The project will build and execute the acceptance tests automatically.
+
+
+Running Tests Independently
+===========================
+Windows Command Prompt or Mac Terminal
+"mvn integration-test”
+
+Within the IDE
+Execute "JBehaveStories.java".  For example in
+
+![Alt text](/readme_images/Execute_Stories_In_Intellij.png "Optional title")
+
+
+Important Files
+===============
 
 ./LICENSE.md:
 The open source license text for this project.
 
-TESTING
-=======
+./pom.xml:
+A maven project descriptor that describes how to build this module.
 
-This  project also contains test classes that can be run as part of a test
-suite.
+./src/test/resources/org/mule/modules/jbehave/stories/StorageManagement.story
+The JBehave acceptance tests.
 
-ADDITIONAL RESOURCES
-====================
+./src/test/resources/mule-config.xml
+The mule configuration for the tests.  Review this to understand how to leverage the connector from Mule.
+
+./src/test/java/org/mule/modules/jbehave/JBehaveStories.java
+Configuration and execution of the JBehave acceptance tests.  You can execute this in your IDE to run the tests.
+Maven will automatically execute these test when building from the Windows command prompt or Mac Terminal window
+(e.g. "mvn clean install").
+
+./src/main/java/org/mule/modules/DynamoDBConnector.java
+The Mule connector itself.
+
+
+
+Resources
+=========
+
+An introduction to DynamoDB can be found here:
+http://aws.amazon.com/dynamodb/
+
 Everything you need to know about getting started with Mule can be found here:
 http://www.mulesoft.org/documentation/display/MULE3INTRO/Home
 
-There further useful information about extending Mule here:
-http://www.mulesoft.org/documentation/display/DEVKIT/Home
-
-Remember if you get stuck you can try getting help on the Mule user list:
-http://www.mulesoft.org/email-lists
-
-Also, MuleSoft, the company behind Mule, offers 24x7 support options:
-http://www.mulesoft.com/enterprise-subscriptions-and-support
-
-Enjoy your Mule ride!
-
-The Mule Team
