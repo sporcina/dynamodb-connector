@@ -2,17 +2,17 @@
 
 [Prerequisites](#prerequisites)
 
-[Step 1: Install DynamoDB Mule Connector from Update Site](#step-2-install-mule-box-connector-from-update-site)
+[Step 1: Install DynamoDB Mule Connector from Update Site](#step1)
 
-[Step 2: Create a Demo Project](#step3)
+[Step 2: Create a Demo Project](#step2)
 
-[Step 3: Create a Table](#step4)
+[Step 3: Create a Table](#step3)
 
-[Step 4: Save a Document](#step5)
+[Step 4: Save a Document](#step4)
 
-[Step 5: Run the Demo project](#step6)
+[Step 5: Run the Demo project](#step5)
 
-[Step 6: Test the Flows](#step7)
+[Step 6: Test the Flows](#step6)
 
 [Flow XML](#flowXML)
 
@@ -40,16 +40,16 @@ In order to build and run this project you'll need:
 
 * an [AWS account](http://aws.amazon.com/)
 
-* [MuleStudio](http://www.mulesoft.org/download-mule-esb-community-edition).
+* [MuleStudio](http://www.mulesoft.org/download-mule-esb-community-edition)
 
-* optional: [Intelli-J IDEA](http://www.jetbrains.com/idea/download/) or [Eclipse](http://www.eclipse.org/downloads/)
-
-
+* (optional) [Intelli-J IDEA](http://www.jetbrains.com/idea/download/) or [Eclipse](http://www.eclipse.org/downloads/)
 
 
 
 
-### Step 1: Install DynamoDB Mule Connector from Update Site
+
+
+### Step 1: Install DynamoDB Mule Connector from Update Site (TBD)
 
 
 
@@ -76,3 +76,18 @@ In order to build and run this project you'll need:
 *    Run Mule Studio and select **File \> New \> Mule Project** menu item.
 
 *    Type **Demo** as a project name and click **Next**.
+
+![Create a new Demo project](images/Step2-1.png)
+
+
+### Step 3: Create a Table
+
+### Step 4: Save a Document
+
+### Step 5: Run the Demo project
+
+### Step 6: Test the Flows
+
+[Flow XML](#flowXML)
+
+[Other Resources](#other)
