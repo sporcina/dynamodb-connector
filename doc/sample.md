@@ -63,21 +63,22 @@ In order to build and run this project you'll need:
 
 
 
-![Install Mule Box Connector from update Site](images/Step2-1.png)
-
-
-
-
-
 ### Step 2: Create a Demo Project
 
 
 
 *    Run Mule Studio and select **File \> New \> Mule Project** menu item.
 
-*    Type **Demo** as a project name and click **Next**.
+*    Type **Demo** as a project name and click **Finish**.
 
 ![Create a new Demo project](images/Step2-1.png)
+
+*   Double click on src/main/app/Demo.xml to open it, select Global Elements tab in view (located in the bottom of the next image).
+
+![Create a new Demo project](images/Step2-2.png)
+
+*   Click on Create button
+
 
 
 ### Step 3: Create a Table
