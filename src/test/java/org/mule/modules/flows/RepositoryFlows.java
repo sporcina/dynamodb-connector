@@ -1,4 +1,4 @@
-package org.mule.modules;
+package org.mule.modules.flows;
 
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import org.junit.Assert;

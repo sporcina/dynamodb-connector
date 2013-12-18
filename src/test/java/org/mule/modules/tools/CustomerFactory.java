@@ -1,7 +1,7 @@
 package org.mule.modules.tools;
 
 
-import org.mule.modules.samples.FakeCustomer;
+import org.mule.modules.stubs.FakeCustomer;
 
 public final class CustomerFactory {
 

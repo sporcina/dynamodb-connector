@@ -6,7 +6,7 @@
     <artifactId>dynamodb-connector</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>mule-module</packaging>
-    <name>Mule Cloud Connector</name>
+    <name>DynamoDB Mule Cloud Connector</name>
 
     <properties>
         <jdk.version>1.6</jdk.version>
@@ -17,6 +17,7 @@
         <mockito.version>1.8.2</mockito.version>
         <logback.version>1.0.13</logback.version>
         <mule.devkit.version>3.4.0</mule.devkit.version>
+        <aws-java-sdk.version>1.6.4</aws-java-sdk.version>
 
         <!--
         These properties correct this Maven build warning:
@@ -87,6 +88,21 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- for use with JUnit-only environments -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.16</version>
+                <configuration>
+                    <!--<includes>-->
+                        <!--<include>Sample.java</include>-->
+                    <!--</includes>-->
+                </configuration>
+            </plugin>
+
+            <!-- for use with environments that support JBehave -->
+            <!--
             <plugin>
                 <groupId>org.jbehave</groupId>
                 <artifactId>jbehave-maven-plugin</artifactId>
@@ -100,11 +116,11 @@
                             <includes>
                                 <include>**/*Stories.java</include>
                             </includes>
-                            <!--<property>-->
+                            <!- <property>-->
                             <!--<name>java.awt.headless</name>-->
                             <!--<value>true</value>-->
                             <!--</property>-->
-                            <ignoreFailureInStories>false</ignoreFailureInStories>
+                            <!--<ignoreFailureInStories>false</ignoreFailureInStories>
                             <ignoreFailureInView>false</ignoreFailureInView>
                         </configuration>
                         <goals>
@@ -121,6 +137,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.mule.tools.devkit</groupId>
                 <artifactId>mule-devkit-maven-plugin</artifactId>
@@ -253,7 +270,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk</artifactId>
-            <version>1.6.0</version>
+            <version>${aws-java-sdk.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

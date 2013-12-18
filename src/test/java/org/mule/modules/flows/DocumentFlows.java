@@ -1,6 +1,6 @@
-package org.mule.modules;
+package org.mule.modules.flows;
 
-import org.mule.modules.samples.FakeCustomer;
+import org.mule.modules.stubs.FakeCustomer;
 import org.mule.modules.tools.CustomerFactory;
 import org.mule.modules.tools.FlowBuilder;
 

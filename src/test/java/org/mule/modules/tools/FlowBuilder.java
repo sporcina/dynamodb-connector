@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 
 /**
- * TODO: need a description
+ * builds and executes mule context for acceptance tests
  */
 public class FlowBuilder extends FunctionalTestCase {
 

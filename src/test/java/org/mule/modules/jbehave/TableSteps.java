@@ -5,13 +5,12 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.embedder.Embedder;
-import org.mule.modules.RepositoryFlows;
+import org.mule.modules.flows.RepositoryFlows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 
 
 /**

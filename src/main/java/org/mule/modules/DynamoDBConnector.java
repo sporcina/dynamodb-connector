@@ -120,6 +120,7 @@ public class DynamoDBConnector {
             setDynamoDBClient(new AmazonDynamoDBClient(credentialsProvider));
             Region regionEnum = Region.getRegion(getRegionAsEnum());
             getDynamoDBClient().setRegion(regionEnum);
+            //getDynamoDBClient().setEndpoint("http://dynamodb.us-west-1.amazonaws.com");
         } catch (Exception e) {
             throw new ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage(), e);
         }

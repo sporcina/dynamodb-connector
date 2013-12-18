@@ -3,7 +3,7 @@ package org.mule.modules.jbehave;
 import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.steps.Steps;
-import org.mule.modules.samples.FakeCustomer;
+import org.mule.modules.stubs.FakeCustomer;
 
 import javax.validation.constraints.NotNull;
 

@@ -1,7 +1,7 @@
 package org.mule.modules.tools;
 
 import org.junit.Assert;
-import org.mule.modules.samples.FakeCustomer;
+import org.mule.modules.stubs.FakeCustomer;
 
 
 /**

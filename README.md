@@ -41,9 +41,16 @@ Execute "mvn integration-test” in the root folder of the project.
 ![Alt text](/readme_images/Running_Tests_From_Terminal.png "Running acceptance tests from Mac Terminal")
 
 Within your IDE
-Execute "JBehaveStories.java".  For example in IntelliJ you can right-click on the file and run or debug it:
+Execute "DynamoDBConnectorTestCase.java" or "JBehaveStories.java".  Both are provided because JBehave was used to drive
+the development of this connector, yet some test environments only JUnit.  Their tests are identical conceptually with
+small variations in syntax.  By default, "DynamoDBConnectorTestCases.java" executes when you build from the command
+prompt.  In your IDE (e.g. IntelliJ) you can right-click on either of these files and run or debug it:
 
 ![Alt text](/readme_images/Execute_Stories_In_IntelliJ.png "Executing the acceptance tests from Intelli-J")
+
+note: The tests will create a new table titled "DynamoDbConnectorTestTable_toDelete", exercise it with documents, and then
+delete it.  Creating a new DynamoDB table takes time, so to save some when running future tests, disable or don't run
+the "delete table" test.
 
 
 Important Files
