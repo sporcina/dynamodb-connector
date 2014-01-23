@@ -42,9 +42,9 @@ Execute "mvn integration-test” in the root folder of the project.
 
 Within your IDE
 Execute "DynamoDBConnectorTestCase.java" or "JBehaveStories.java".  Both are provided because JBehave was used to drive
-the development of this connector, yet some test environments only JUnit.  Their tests are identical conceptually with
+the development of this connector, yet some test environments require only JUnit.  Each test suite is conceptually identical with
 small variations in syntax.  By default, "DynamoDBConnectorTestCases.java" executes when you build from the command
-prompt.  In your IDE (e.g. IntelliJ) you can right-click on either of these files and run or debug it:
+prompt or terminal.  In your IDE (e.g. IntelliJ) you can right-click on either of these files and run or debug it:
 
 ![Alt text](/readme_images/Execute_Stories_In_IntelliJ.png "Executing the acceptance tests from Intelli-J")
 
