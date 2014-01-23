@@ -69,12 +69,14 @@ The JBehave acceptance tests.
 The mule configuration for the tests.  Review this to understand how to leverage the connector from Mule.
 
 *./src/test/java/org/mule/modules/jbehave/JBehaveStories.java* <br/>
-Configuration and execution of the JBehave acceptance tests.  You can execute this in your IDE to run the tests.
-Maven will automatically execute these test when building from the Windows command prompt or Mac Terminal window
+*./src/test/java/org/mule/modules/DynamoDBConnectorTestCase.java* <br/>
+Configuration and execution of the acceptance tests.  You can execute either of these files in your IDE to run the tests.
+You can run either test suite, which ever your prefer.  Running both is not necessary.  Maven will automatically execute
+the acceptance tests when building from the Windows command prompt or Mac Terminal window.
 (e.g. "mvn clean install").
 
 *./src/main/java/org/mule/modules/DynamoDBConnector.java* <br/>
-The Mule connector itself.
+The DynamoDB Mule connector itself.
 
 
 
