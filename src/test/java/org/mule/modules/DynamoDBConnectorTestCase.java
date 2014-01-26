@@ -1,6 +1,7 @@
 package org.mule.modules;
 
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mule.modules.jbehave.DocumentSteps;
 import org.mule.modules.jbehave.TableSteps;
@@ -78,6 +79,14 @@ public class DynamoDBConnectorTestCase {
     }
 
 
+    /**
+     * Creating a new DynamoDB table takes time, so to save some, the test that deletes the table is disabled using
+     * @Ignore.  Ultimately, the proper way to execute these tests would be to include the creation and deletion of
+     * the table in each test to make them independent of each other.  There are other solutions like using
+     * @Before/@After or @FixMethodOrder annotations.  These solutions are generally discouraged since they introduce
+     * inter-test dependencies that is an additional complexity to the code to manage over time.
+     */
+    @Ignore
     @Test
     public void shouldDeleteTheRepository() {
         TableSteps tableSteps = new TableSteps();

@@ -48,9 +48,12 @@ prompt or terminal.  In your IDE (e.g. IntelliJ) you can right-click on either o
 
 ![Alt text](/readme_images/Execute_Stories_In_IntelliJ.png "Executing the acceptance tests from Intelli-J")
 
-note: The tests will create a new table titled "DynamoDbConnectorTestTable_toDelete", exercise it with documents, and then
-delete it.  Creating a new DynamoDB table takes time, so to save some when running future tests, disable or don't run
-the "delete table" test.
+The tests will create a new table titled "DynamoDbConnectorTestTable_toDelete", exercise it with documents, and then
+delete it.  Creating a new DynamoDB table takes time, so to save some, the test that deletes the table is disabled using
+@Ignore.  Ultimately, the proper way to execute these tests would be to include the creation and deletion of the table
+in each test to make them independent of each other.  There are other solutions like using @Before/@After or
+@FixMethodOrder annotations.  These solutions are generally discouraged since they introduce inter-test dependencies
+that is an additional complexity to the code to manage over time.
 
 
 Important Files

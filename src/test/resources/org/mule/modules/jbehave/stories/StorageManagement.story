@@ -60,7 +60,7 @@ Then there are no documents in the repository
 
 Scenario: DynamoDB repository is deleted
 Meta:
-!--@skip
+@skip
 Given I have DynamoDB credentials
 And I have a repository that is ACTIVE
 When I request to delete the repository
