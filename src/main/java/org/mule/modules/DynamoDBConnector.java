@@ -34,7 +34,11 @@ import java.util.List;
  *
  * @author Sheldon Porcina
  */
-@Connector(name = "dynamodb", schemaVersion = "1.0-SNAPSHOT")
+@Connector(name = "dynamodb",
+        friendlyName="Amazon DynamoDB",
+        schemaVersion = "1.0-SNAPSHOT",
+        minMuleVersion="3.4",
+        description="Mule Cloud Connector for Amazon DynamoDB")
 public class DynamoDBConnector {
 
     private static final Logger LOG = LoggerFactory.getLogger(DynamoDBConnector.class);
