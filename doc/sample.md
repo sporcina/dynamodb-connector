@@ -49,7 +49,9 @@ In order to build and run this project you'll need:
 
 
 
-### Step 1: Install DynamoDB Mule Connector from Update Site (TBD)
+### Step 1: Install DynamoDB Mule Connector
+
+## From the Update Site (TBD)
 
 
 
@@ -61,7 +63,20 @@ In order to build and run this project you'll need:
 
 *    Follow installation steps.
 
+## From a local build
 
+*    Navigate to your DynamoDB root folder (e.g "~/git_repos/dynamodb-connector" -or- "c:\git_repos\dynamodb-connector")
+*    Execute the this command: "mvn clean package -Ddevkit.studio.package.skip=false"
+*    In Mule Studio select **Help** \> **Install New Software...**.
+*    Select **Add**, then select **Archive**
+*    Navigate to the **target** folder under your DynamoDB root folder
+*    Select **UpdateSite.zip**, then select **Open**
+*    In the **name** field, type in **DynamoDB Cloud Connector**, then select **OK**
+*    Select the checkbox next to **Mule Cloud Connectors**
+*    Select **Next** until you get the **License Agreement**
+*    Accept the **License Agreement** and select **Finish**
+*    If you are prompted with a warning that the connector is unsigned, just select **OK**
+*    If prompted, restart Mule Studio
 
 ### Step 2: Create a Demo Project
 
