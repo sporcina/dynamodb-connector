@@ -93,7 +93,10 @@ In order to build and run this project you'll need:
 ![Create a new Demo project](images/Step2-2.png)
 
 *   Click on Create button
+*   In the "Filter" field, type **Amazon** to search for the connector, then under "Cloud Connectors" select **Amazon DynamoDB**.
+*   Click OK
 
+![Create a new Demo project](images/Step2-3.png)
 
 
 ### Step 3: Create a Table
