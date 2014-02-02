@@ -36,7 +36,7 @@ import java.util.List;
  */
 @Connector(name = "dynamodb",
         friendlyName="Amazon DynamoDB",
-        schemaVersion = "1.0-SNAPSHOT",
+        schemaVersion = "1.0",
         minMuleVersion="3.4",
         description="Mule Cloud Connector for Amazon DynamoDB")
 public class DynamoDBConnector {
@@ -110,7 +110,7 @@ public class DynamoDBConnector {
     @Connect
     // TODO: try this => @Default (value = Query.MILES) @Optional String unit
     // TODO: need to leverage the accessKey and secretKey fields - sporcina (Oct.19,2013)
-    public void connect(@NotNull @ConnectionKey String accessKey, @NotNull String secretKey) throws ConnectionException {
+    public void connect(@ConnectionKey String accessKey, String secretKey) throws ConnectionException {
 
         AWSCredentialsProvider credentialsProvider = new ClasspathPropertiesFileCredentialsProvider();
         try {
