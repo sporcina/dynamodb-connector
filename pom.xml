@@ -216,6 +216,10 @@
             <resource>
                 <filtering>true</filtering>
                 <directory>src/test/resources</directory>
+                <excludes>
+                    <!-- if it exists, make sure the AWS credentials file in not included in the maven artifact -->
+                    <exclude>AwsCredentials.properties</exclude>
+                </excludes>
             </resource>
         </resources>
     </build>
