@@ -98,8 +98,33 @@ In order to build and run this project you'll need:
 
 ![Create a new Demo project](images/Step2-3.png)
 
+*   In the **Global Element Properties** windows, enter your access and secret keys
+*   Enter "US_WEST_1" as your region
+*   Select **Test Connection...** to confirm that your configuration works
+*   Select **OK**
+
+![Create a new Demo project](images/Step2-4.png)
+
 
 ### Step 3: Create a Table
+
+*   Select the **Message Flow** tab
+*   Drag and drop an HTTP endpoint in to the flow
+*   In the path filed, type in **createTable**
+
+![Create a table](images/Step3-1.png)
+
+*   Drag and drop an **Amazon DynamoDB** endpoint in to the flow
+*   Edit the **Amazon DynamoDB** endpoint and
+**  In the **Config Reference**, select "Amazon_DynamoDB"
+**  For the **Table Name**, type "MyTestTable"
+**  Enter '1' for the Read and Write Capacity Units
+**  Type 'num' for the Primary Key Name
+**  Enter '10' for the Wait For value
+
+Your **Amazon DynamoDB** endpoint should look like this:
+
+![Create a table](images/Step3-1.png)
 
 ### Step 4: Save a Document
 
