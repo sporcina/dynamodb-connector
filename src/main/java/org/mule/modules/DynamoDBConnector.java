@@ -5,9 +5,7 @@ package org.mule.modules;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.auth.*;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
@@ -15,6 +13,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.*;
+import org.apache.commons.lang.StringUtils;
 import org.mule.api.ConnectionException;
 import org.mule.api.ConnectionExceptionCode;
 import org.mule.api.annotations.*;
@@ -45,7 +44,7 @@ public class DynamoDBConnector {
     private static AmazonDynamoDBClient dynamoDBClient;
 
     private static final String PAYLOAD = "#[payload]";
-    private static final int TWENTY_SECONDS = 1000 * 20;
+    private static final int TWENTY_SECONDS = 20 * 1000;
 
 
     /**
@@ -109,22 +108,57 @@ public class DynamoDBConnector {
      */
     @Connect
     // TODO: try this => @Default (value = Query.MILES) @Optional String unit
-    // TODO: need to leverage the accessKey and secretKey fields - sporcina (Oct.19,2013)
     public void connect(@ConnectionKey String accessKey, String secretKey) throws ConnectionException {
 
+        if (StringUtils.isNotEmpty(accessKey) && StringUtils.isNotEmpty(secretKey)) {
+            createDynamoDBClient(accessKey, secretKey);
+        } else {
+            createDynamoDBClient();
+        }
+
+        Region regionEnum = Region.getRegion(getRegionAsEnum());
+        getDynamoDBClient().setRegion(regionEnum);
+        //getDynamoDBClient().setEndpoint("http://dynamodb.us-west-1.amazonaws.com");
+    }
+
+    /**
+     * Creates a DynamoDB client using the security values from the AWSCredentials.properties file
+     *
+     * @throws ConnectionException
+     */
+    private void createDynamoDBClient() throws ConnectionException {
         AWSCredentialsProvider credentialsProvider = new ClasspathPropertiesFileCredentialsProvider();
         try {
             credentialsProvider.getCredentials();
         } catch (AmazonClientException e) {
             LOG.warn("AWSCredentials.properties file was not found.  Attempting to acquire credentials from the default provider chain.");
-            credentialsProvider = new DefaultAWSCredentialsProviderChain();
+            throw new ConnectionException(ConnectionExceptionCode.INCORRECT_CREDENTIALS, null, e.getMessage(), e);
+        } catch (Exception e) {
+            LOG.warn(e.getMessage() + "  Are you missing the AWSCredentials.properties file?");
+            throw new ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage(), e);
         }
 
         try {
             setDynamoDBClient(new AmazonDynamoDBClient(credentialsProvider));
-            Region regionEnum = Region.getRegion(getRegionAsEnum());
-            getDynamoDBClient().setRegion(regionEnum);
-            //getDynamoDBClient().setEndpoint("http://dynamodb.us-west-1.amazonaws.com");
+        } catch (Exception e) {
+            throw new ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Creates a DynamoDB client using the security values passed in
+     *
+     * @param accessKey
+     *         the access key provided to you through your Amazon AWS account
+     * @param secretKey
+     *         the secret key provided to you through your Amazon AWS account
+     *
+     * @throws ConnectionException
+     */
+    private void createDynamoDBClient(String accessKey, String secretKey) throws ConnectionException {
+        try {
+            AWSCredentials credentialsProvider = new BasicAWSCredentials(accessKey, secretKey);
+            setDynamoDBClient(new AmazonDynamoDBClient(credentialsProvider));
         } catch (Exception e) {
             throw new ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage(), e);
         }
