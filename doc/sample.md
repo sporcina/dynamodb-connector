@@ -42,7 +42,7 @@ In order to build and run this project you'll need:
 
 * [MuleStudio](http://www.mulesoft.org/download-mule-esb-community-edition)
 
-* (optional) [Intelli-J IDEA](http://www.jetbrains.com/idea/download/) or [Eclipse](http://www.eclipse.org/downloads/)
+* TBD: NOT NEEDED for this documentation?? - (optional) [Intelli-J IDEA](http://www.jetbrains.com/idea/download/) or [Eclipse](http://www.eclipse.org/downloads/)
 
 
 
@@ -84,7 +84,7 @@ In order to build and run this project you'll need:
 
 *    Run Mule Studio and select **File \> New \> Mule Project** menu item.
 
-*    Type **Demo** as a project name and click **Finish**.
+*    Type **DynamoDBDemo** as a project name and click **Finish**.
 
 ![Create a new Demo project](images/Step2-1.png)
 
@@ -92,7 +92,7 @@ In order to build and run this project you'll need:
 
 ![Create a new Demo project](images/Step2-2.png)
 
-*   Click on Create button
+*   Click the Create button
 *   In the "Filter" field, type **Amazon** to search for the connector, then under "Cloud Connectors" select **Amazon DynamoDB**.
 *   Click OK
 
@@ -100,31 +100,50 @@ In order to build and run this project you'll need:
 
 *   In the **Global Element Properties** windows, enter your access and secret keys
 *   Enter "US_WEST_1" as your region
-*   Select **Test Connection...** to confirm that your configuration works
-*   Select **OK**
+*   Select **Test Connection...** to confirm that your configuration works before continuing.  If there is a problem, double-check the keys you entered.
+
+Your screen should look like this:
 
 ![Create a new Demo project](images/Step2-4.png)
+
+*   Select **OK**
+*   Save your project using the **File \> Save All** menu item.
 
 
 ### Step 3: Create a Table
 
+Now we're going to create some Mule work flows that demonstrate some of the DyanamoDB Connector features.  We will use the
+HTTP endpoint to invoke our flows.  If you wish you can use a different endpoint, though they are not covered in this
+tutorial.
+
 *   Select the **Message Flow** tab
-*   Drag and drop an HTTP endpoint in to the flow
-*   In the path filed, type in **createTable**
+*   From the Palette tool bar on the right side of the screen, under the "Endpoints" section, drag and drop an **HTTP** endpoint in to the flow
+*   Rename the flow from "dynamodbdemoFlow1" to "CreateTableFlow" by right-clicking on the text and selecting **Rename**
+*   Select the HTTP endpoint to display its property window at the bottom of the screen
+*   In the path field, type in **createTable**
+
+Your screen should should look like this:
 
 ![Create a table](images/Step3-1.png)
 
-*   Drag and drop an **Amazon DynamoDB** endpoint in to the flow
-*   Edit the **Amazon DynamoDB** endpoint and
-**  In the **Config Reference**, select "Amazon_DynamoDB"
-**  For the **Table Name**, type "MyTestTable"
-**  Enter '1' for the Read and Write Capacity Units
-**  Type 'num' for the Primary Key Name
-**  Enter '10' for the Wait For value
+*   From the Palette tool bar, under the "Cloud Connectors" section, drag and drop an **Amazon DynamoDB** endpoint in to the flow
+*   Select the **Amazon DynamoDB** endpoint and change the following properties:
+    *   In the **Config Reference**, select "Amazon_DynamoDB"
+    *   For the **Table Name**, type "MyTestTable"
+    *   Enter '1' for the Read and Write Capacity Units
+    *   Type 'num' for the Primary Key Name
+    *   Enter '10' for the Wait For value
 
 Your **Amazon DynamoDB** endpoint should look like this:
 
-![Create a table](images/Step3-1.png)
+![Create a table](images/Step3-2.png)
+
+*   To test your flow:
+    *   Select your flow to highlight it
+    *   From the **Run** menu, select **Run As** then **Mule Application**
+    *   Launch your web browser and navigate to "http://localhost:8081/createTable"
+
+![Create a table](images/Step3-3.png)
 
 ### Step 4: Save a Document
 
