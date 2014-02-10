@@ -113,11 +113,11 @@ Your screen should look like this:
 ### Step 3: Create a Table
 
 Now we're going to create some Mule work flows that demonstrate some of the DyanamoDB Connector features.  We will use the
-HTTP endpoint to invoke our flows.  If you wish you can use a different endpoint, though they are not covered in this
+HTTP endpoint to invoke our flows, and save some fake customer data to a new DynamoDB table.  If you wish you can use a different endpoint, though they are not covered in this
 tutorial.
 
 *   Select the **Message Flow** tab
-*   From the Palette tool bar on the right side of the screen, under the "Endpoints" section, drag and drop an **HTTP** endpoint in to the flow
+*   From the Palette tool bar on the right side of the screen, under the "Endpoints" section, drag and drop an **HTTP** endpoint in to the Message Flow canvas
 *   Rename the flow from "dynamodbdemoFlow1" to "CreateTableFlow" by right-clicking on the text and selecting **Rename**
 *   Select the HTTP endpoint to display its property window at the bottom of the screen
 *   In the path field, type in **createTable**
@@ -129,6 +129,7 @@ Your screen should should look like this:
 *   From the Palette tool bar, under the "Cloud Connectors" section, drag and drop an **Amazon DynamoDB** endpoint in to the flow
 *   Select the **Amazon DynamoDB** endpoint and change the following properties:
     *   In the **Config Reference**, select "Amazon_DynamoDB"
+    *   Ensure that **Create table** is selected under the Operation field
     *   For the **Table Name**, type "MyTestTable"
     *   Enter '1' for the Read and Write Capacity Units
     *   Type 'num' for the Primary Key Name
@@ -142,10 +143,42 @@ Your **Amazon DynamoDB** endpoint should look like this:
     *   Select your flow to highlight it
     *   From the **Run** menu, select **Run As** then **Mule Application**
     *   Launch your web browser and navigate to "http://localhost:8081/createTable"
+    *   Now go back to Mule Studio and select the **Console** tab at the bottom the screen.
 
-![Create a table](images/Step3-3.png)
+You'll see log entries showing the DynamoDB Connector working.  Creating a new table in DynamoDB takes time.  Watch the
+status logs until you see the message that the current state is **ACTIVE**.  It should look like this:
+
+![Create a table - console window](images/Step3-4.png)
+
+If you login to AWS and view your DynamoDB Management Console website, you'll see the newly created table.
+
+![Create a table - DynamoDB Management Console website](images/Step3-5.png)
+
+*   Terminate your Mule Application instance in Mule Studio by selecting the button shaped like a "red square" on the right side of the screen in the **Console** tab noted earlier
 
 ### Step 4: Save a Document
+
+Now that we have a table, we can save information to it.  For the purpose of this demo, we'll save some fake customer data.
+
+*   Create a new flow by again drag-and-dropping the HTTP endpoint from the Palette tool bar, to the Message Flow canvas, below "CreateTableFlow".
+*   Rename it to read **SaveDocumentFlow**
+*   Type **saveDocument** in the path field
+
+Your screen will look like this:
+
+![Save a Document - created a new flow](images/Step4-1.png)
+
+*   Again, drag and drop the **Amazon DynamoDB** Cloud Connector from the Palette tool bar, in to the "saveDocument" flow
+*   Set the "Config Reference" in the properties for the DynamoDB Cloud Connector to "Amazon_DynamoDB"
+*   Change the Operation to "Save document"
+*   In the **Table Name** field, type "MyTestTable".  This is the name of the table we create earlier.
+
+![Save a Document - added DynamoDB connector](images/Step4-2.png)
+
+We've got the basics the flow setup, which is very similar to the previous flow we created.  Now we'll add new elements to
+the flow which will help us create and observe data to save to the table.
+
+*
 
 ### Step 5: Run the Demo project
 
