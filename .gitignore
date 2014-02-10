@@ -1,5 +1,5 @@
 .idea/*
 target/*
 *.iml
-src/test/resources/AwsCredentials.properties
+*.class
 src/test/resources/AwsCredentials.properties
