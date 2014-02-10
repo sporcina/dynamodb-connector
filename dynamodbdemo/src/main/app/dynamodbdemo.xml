@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:dynamodb="http://www.mulesoft.org/schema/mule/dynamodb" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/dynamodb http://www.mulesoft.org/schema/mule/dynamodb/1.0/mule-dynamodb.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <dynamodb:config name="Amazon_DynamoDB" accessKey="AKIAI57QUZGBDTBOS2IQ" secretKey="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" region="US_WEST_1" doc:name="Amazon DynamoDB">
+        <dynamodb:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+    </dynamodb:config>
+    <flow name="CreateTableFlow" doc:name="CreateTableFlow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="createTable" doc:name="HTTP"/>
+        <dynamodb:create-table config-ref="Amazon_DynamoDB" tableName="MyTestTable" readCapacityUnits="1" writeCapacityUnits="1" primaryKeyName="num" waitFor="10" doc:name="Amazon DynamoDB"/>
+    </flow>
+    <flow name="SaveDocumentFlow" doc:name="SaveDocumentFlow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="saveDocument" doc:name="HTTP"/>
+        <dynamodb:save-document config-ref="Amazon_DynamoDB" tableName="MyTestTable" doc:name="Amazon DynamoDB"/>
+    </flow>
+</mule>

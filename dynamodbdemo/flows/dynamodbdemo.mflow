@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="dynamodbdemo">
+    <global-element name="Amazon DynamoDB" type="http://www.mulesoft.org/schema/mule/dynamodb/config" entity-id="!!!13e5d8d0-5d59-43dd-b591-e4f176cbb5f9">
+        <properties>
+            <property name="region" value="US_WEST_1"/>
+            <property name="accessKey" value="AKIAI57QUZGBDTBOS2IQ"/>
+            <property name="secretKey" value="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"/>
+            <property name="name" value="Amazon_DynamoDB"/>
+            <property-collection name="">
+                <property name="d" value=""/>
+                <property name="blocking" value="true"/>
+                <property name="count" value="2"/>
+                <property name="customReconnection" value="false"/>
+                <property name="standardReconnection" value="false"/>
+                <property name="class" value=""/>
+                <property name="frequency" value="2000"/>
+                <property name="reconnectForever" value="false"/>
+                <property name="noReconnection" value="true"/>
+            </property-collection>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/dynamodb/connection-pooling-profile;148044267">
+                <property name="maxActive" value="5"/>
+                <property name="exhaustedAction" value="WHEN_EXHAUSTED_GROW"/>
+                <property name="maxIdle" value="5"/>
+                <property name="poolingProfileLabel" value=""/>
+                <property name="maxWait" value="5"/>
+                <property name="evictionCheckIntervalMillis" value="-1"/>
+                <property name="minEvictionMillis" value="1800000"/>
+                <property name="isProcessed$$$$ " value="true"/>
+                <property name="initialisationPolicy" value="INITIALISE_ONE"/>
+            </property-collection>
+        </properties>
+        <description></description>
+    </global-element>
+    <flow SubFlow="false" name="CreateTableFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="decf4517-deb3-493f-8aa9-b66d466bf717">
+        <properties>
+            <property name="processingStrategy2" value=""/>
+            <property name="initialState" value=""/>
+            <property name="auxiliary;erased;initialState" value="true"/>
+            <property name="bussinessEventsLabel" value=""/>
+            <property name="tracking:enable-default-events" value="false"/>
+            <property name="auxiliary;erased;processingStrategy2" value="true"/>
+            <property name="updated"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;26481040">
+                <property name="id" value=""/>
+                <property name="isProcessed$$$$ " value="true"/>
+            </property-collection>
+        </properties>
+        <description></description>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="f15688f2-cc3a-4c04-b53a-73b975ccb85b">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/https/endpoint" entity-id="3afc7ec9-53f8-4609-8ab7-3502d38d5c23">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="auxiliary;erased;contentType" value="true"/>
+                    <property name="port" value="8081"/>
+                    <property name="auxiliary;erased;mimeType" value="true"/>
+                    <property name="host" value="localhost"/>
+                    <property name="businessEventsLabel" value=""/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
+                    <property name="keep-alive" value="false"/>
+                    <property name="contentType" value=""/>
+                    <property name="disableTransportTransformer" value="false"/>
+                    <property name="password" value=""/>
+                    <property name="tracking:enable-default-events" value="false"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="ref" value=""/>
+                    <property name="httpLabel" value=""/>
+                    <property name="transformer-refs" value=""/>
+                    <property name="address" value=""/>
+                    <property name="updated"/>
+                    <property name="auxiliary;erased;encoding" value="true"/>
+                    <property name="path" value="createTable"/>
+                    <property name="encoding" value=""/>
+                    <property name="responseTransformer-refs" value=""/>
+                    <property name="user" value=""/>
+                    <property name="responseTimeout" value="10000"/>
+                    <property name="mimeType" value=""/>
+                    <property name="connector-ref" value=""/>
+                </properties>
+                <description></description>
+            </endpoint>
+            <pattern name="Amazon DynamoDB" type="http://www.mulesoft.org/schema/mule/dynamodb/dynamodb-connector" entity-id="adf9fe9b-cc94-44f7-9236-557a737c652b">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="" value=""/>
+                    <property name="writeCapacityUnits" value="1"/>
+                    <property name="accessKey" value=""/>
+                    <property name="primaryKeyName" value="num"/>
+                    <property name="secretKey" value=""/>
+                    <property name="updated"/>
+                    <property name="tableName" value="MyTestTable"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/dynamodb/create-table"/>
+                    <property name="waitFor" value="10"/>
+                    <property name="readCapacityUnits" value="1"/>
+                    <property name="config-ref" value="Amazon_DynamoDB"/>
+                </properties>
+                <description></description>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="SaveDocumentFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="5fde7174-e3cf-4fef-b24f-984829ad2c42">
+        <properties>
+            <property name="processingStrategy2" value=""/>
+            <property name="initialState" value=""/>
+            <property name="auxiliary;erased;initialState" value="true"/>
+            <property name="bussinessEventsLabel" value=""/>
+            <property name="tracking:enable-default-events" value="false"/>
+            <property name="auxiliary;erased;processingStrategy2" value="true"/>
+            <property name="updated"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;1252623784">
+                <property name="id" value=""/>
+                <property name="isProcessed$$$$ " value="true"/>
+            </property-collection>
+        </properties>
+        <description></description>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="3d9578c9-ba04-4c27-9464-29a254e4f090">
+            <graphicalData x="14" y="307" width="85" height="171"/>
+            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/https/endpoint" entity-id="c9934938-171b-4b46-98d1-03c28cb9ccc3">
+                <graphicalData x="21" y="299" width="68" height="171"/>
+                <properties>
+                    <property name="auxiliary;erased;contentType" value="true"/>
+                    <property name="port" value="8081"/>
+                    <property name="auxiliary;erased;mimeType" value="true"/>
+                    <property name="host" value="localhost"/>
+                    <property name="businessEventsLabel" value=""/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
+                    <property name="keep-alive" value="false"/>
+                    <property name="contentType" value=""/>
+                    <property name="disableTransportTransformer" value="false"/>
+                    <property name="password" value=""/>
+                    <property name="tracking:enable-default-events" value="false"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="ref" value=""/>
+                    <property name="httpLabel" value=""/>
+                    <property name="transformer-refs" value=""/>
+                    <property name="address" value=""/>
+                    <property name="updated"/>
+                    <property name="auxiliary;erased;encoding" value="true"/>
+                    <property name="path" value="saveDocument"/>
+                    <property name="encoding" value=""/>
+                    <property name="responseTransformer-refs" value=""/>
+                    <property name="user" value=""/>
+                    <property name="responseTimeout" value="10000"/>
+                    <property name="mimeType" value=""/>
+                    <property name="connector-ref" value=""/>
+                </properties>
+                <description></description>
+            </endpoint>
+            <pattern name="Amazon DynamoDB" type="http://www.mulesoft.org/schema/mule/dynamodb/dynamodb-connector" entity-id="d0df9556-5530-4670-a5e4-6c605e64da50">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="document-ref" value="#[payload]"/>
+                    <property name="" value=""/>
+                    <property name="accessKey" value=""/>
+                    <property name="secretKey" value=""/>
+                    <property name="updated"/>
+                    <property name="tableName" value="MyTestTable"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/dynamodb/save-document"/>
+                    <property name="config-ref" value="Amazon_DynamoDB"/>
+                </properties>
+                <description></description>
+            </pattern>
+        </lane>
+    </flow>
+</mule-configuration>
