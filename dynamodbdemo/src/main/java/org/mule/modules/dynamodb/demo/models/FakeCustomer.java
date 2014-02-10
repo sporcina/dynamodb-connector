@@ -7,7 +7,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-@DynamoDBTable(tableName = "DynamoDbConnectorTestTable_toDelete")
+@DynamoDBTable(tableName = "MyTestTable")
 public class FakeCustomer {
 
     private String num;

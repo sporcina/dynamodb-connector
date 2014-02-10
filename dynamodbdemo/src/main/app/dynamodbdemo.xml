@@ -16,7 +16,9 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
         <dynamodb:create-table config-ref="Amazon_DynamoDB" tableName="MyTestTable" readCapacityUnits="1" writeCapacityUnits="1" primaryKeyName="num" waitFor="10" doc:name="Amazon DynamoDB"/>
     </flow>
     <flow name="SaveDocumentFlow" doc:name="SaveDocumentFlow">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="saveDocument" doc:name="HTTP"/>
+        <http:inbound-endpoint exchange-pattern="one-way" host="localhost" port="8081" path="saveDocument" doc:name="HTTP"/>
+        <custom-transformer class="org.mule.modules.dynamodb.demo.transformers.HttpCreateDocumentToFakeCustomer" doc:name="Java"/>
         <dynamodb:save-document config-ref="Amazon_DynamoDB" tableName="MyTestTable" doc:name="Amazon DynamoDB"/>
+        <echo-component doc:name="Echo"/>
     </flow>
 </mule>
