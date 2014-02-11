@@ -16,7 +16,7 @@
             </property-collection>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="CreateTableFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="460a2f3b-035a-4889-85a2-64b261365966">
+    <flow SubFlow="false" name="CreateTableFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="f7ddce13-0419-4d3e-a3cf-0972d1091208">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -74,87 +74,7 @@
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="SaveDocumentFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="b7853d28-8338-422d-b7f6-f7d6ce484d44">
-        <properties>
-            <property name="processingStrategy2" value=""/>
-            <property name="initialState" value=""/>
-            <property name="auxiliary;erased;initialState" value="true"/>
-            <property name="bussinessEventsLabel" value=""/>
-            <property name="tracking:enable-default-events" value="false"/>
-            <property name="auxiliary;erased;processingStrategy2" value="true"/>
-            <property name="auxiliary;index" value="6"/>
-            <property name="updated"/>
-            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;2051087810">
-                <property name="id" value=""/>
-                <property name="isProcessed$$$$ " value="true"/>
-            </property-collection>
-        </properties>
-        <description></description>
-        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#2">
-            <graphicalData x="0" y="0" width="0" height="0"/>
-            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#2">
-                <graphicalData x="0" y="0" width="0" height="0"/>
-                <properties>
-                    <property name="port" value="8081"/>
-                    <property name="host" value="localhost"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="followRedirects"/>
-                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
-                    <property name="keep-alive"/>
-                    <property name="contentType"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="password"/>
-                    <property name="exchange-pattern" value="one-way"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property name="ref"/>
-                    <property name="httpLabel"/>
-                    <property name="transformer-refs"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="path" value="saveDocument"/>
-                    <property name="responseTransformer-refs"/>
-                    <property name="method"/>
-                    <property name="user"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="auxiliary;index" value="7"/>
-                    <property name="connector-ref"/>
-                </properties>
-            </endpoint>
-            <pattern name="Java" type="org.mule.tooling.ui.modules.core.pattern.customTransformer" entity-id="Java#1">
-                <graphicalData x="0" y="0" width="0" height="0"/>
-                <properties>
-                    <property name="returnClass"/>
-                    <property name="ignoreBadInput"/>
-                    <property name="encoding"/>
-                    <property name="class" value="org.mule.modules.dynamodb.demo.transformers.HttpCreateDocumentToFakeCustomer"/>
-                    <property name="mimeType"/>
-                    <property name="auxiliary;index" value="8"/>
-                </properties>
-            </pattern>
-            <pattern name="Amazon DynamoDB" type="http://www.mulesoft.org/schema/mule/dynamodb/dynamodb-connector" entity-id="Amazon DynamoDB#3">
-                <graphicalData x="0" y="0" width="0" height="0"/>
-                <properties>
-                    <property name="document-ref"/>
-                    <property name=""/>
-                    <property name="accessKey"/>
-                    <property name="secretKey"/>
-                    <property name="tableName" value="MyTestTable"/>
-                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/dynamodb/save-document"/>
-                    <property name="config-ref" value="Amazon_DynamoDB"/>
-                    <property name="auxiliary;index" value="9"/>
-                </properties>
-                <description></description>
-            </pattern>
-            <pattern name="Echo" type="org.mule.tooling.ui.modules.core.pattern.echo" entity-id="Echo#1">
-                <graphicalData x="0" y="0" width="0" height="0"/>
-                <properties>
-                    <property name="auxiliary;index" value="10"/>
-                </properties>
-            </pattern>
-        </lane>
-    </flow>
-    <flow SubFlow="false" name="DeleteDocumentFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="62fa09ad-e1b1-48b4-a8b1-f4d4f15531a1">
+    <flow SubFlow="false" name="SaveDocumentFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="5026e2d3-01e0-48c1-a2c4-4c775b5288ed">
         <properties>
             <property name="processingStrategy2" value=""/>
             <property name="initialState" value=""/>
@@ -163,16 +83,16 @@
             <property name="tracking:enable-default-events" value="false"/>
             <property name="auxiliary;erased;processingStrategy2" value="true"/>
             <property name="updated"/>
-            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;2112264552">
+            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;1862447837">
                 <property name="id" value=""/>
                 <property name="isProcessed$$$$ " value="true"/>
             </property-collection>
         </properties>
         <description></description>
-        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="5653fa50-2a44-44ed-8ba7-6cf9b7947a0c">
-            <graphicalData x="0" y="0" width="0" height="0"/>
-            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/https/endpoint" entity-id="b7cb42ff-e658-409c-8e67-1a8b9444b0cc">
-                <graphicalData x="0" y="0" width="0" height="0"/>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="ff9a8a9d-4a77-4a69-9bad-e09fe02ceaed">
+            <graphicalData x="14" y="318" width="391" height="85"/>
+            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/https/endpoint" entity-id="999ef66c-37df-46f9-a5b4-e90af97ecc04">
+                <graphicalData x="21" y="318" width="68" height="69"/>
                 <properties>
                     <property name="auxiliary;erased;contentType" value="true"/>
                     <property name="port" value="8081"/>
@@ -187,23 +107,23 @@
                     <property name="tracking:enable-default-events" value="false"/>
                     <property name="exchange-pattern" value="one-way"/>
                     <property name="ref" value=""/>
-                    <property name="httpLabel" value=""/>
                     <property name="transformer-refs" value=""/>
-                    <property name="address" value=""/>
+                    <property name="httpLabel" value=""/>
                     <property name="updated"/>
+                    <property name="address" value=""/>
                     <property name="auxiliary;erased;encoding" value="true"/>
-                    <property name="path" value="deleteDocument"/>
                     <property name="encoding" value=""/>
+                    <property name="path" value="saveDocument"/>
                     <property name="responseTransformer-refs" value=""/>
                     <property name="user" value=""/>
-                    <property name="responseTimeout" value="10000"/>
                     <property name="mimeType" value=""/>
+                    <property name="responseTimeout" value="10000"/>
                     <property name="connector-ref" value=""/>
                 </properties>
                 <description></description>
             </endpoint>
-            <pattern name="Java" type="http://www.mulesoft.org/schema/mule/core/custom-transformer" entity-id="16086380-6523-4337-aec9-2eef157ef2ee">
-                <graphicalData x="0" y="0" width="0" height="0"/>
+            <pattern name="Java" type="http://www.mulesoft.org/schema/mule/core/custom-transformer" entity-id="1a79f3e1-98b2-42d0-a7c6-c7145df257a6">
+                <graphicalData x="149" y="318" width="68" height="69"/>
                 <properties>
                     <property name="auxiliary;erased;mimeType" value="true"/>
                     <property name="returnClass" value=""/>
@@ -211,27 +131,28 @@
                     <property name="updated"/>
                     <property name="auxiliary;erased;encoding" value="true"/>
                     <property name="encoding" value=""/>
-                    <property name="class" value="org.mule.modules.dynamodb.demo.transformers.HttpDeleteDocumentToFakeCustomer"/>
+                    <property name="class" value="org.mule.modules.dynamodb.demo.transformers.HttpCreateDocumentToFakeCustomer"/>
                     <property name="mimeType" value=""/>
                 </properties>
                 <description></description>
             </pattern>
-            <pattern name="Amazon DynamoDB" type="http://www.mulesoft.org/schema/mule/dynamodb/dynamodb-connector" entity-id="4c4a13cd-919d-4408-8aa3-26fbacc946c8">
-                <graphicalData x="0" y="0" width="0" height="0"/>
+            <pattern name="Amazon DynamoDB" type="http://www.mulesoft.org/schema/mule/dynamodb/dynamodb-connector" entity-id="ffa3600f-fe05-488b-9cc4-a2b9f749f65f">
+                <graphicalData x="277" y="318" width="121" height="69"/>
                 <properties>
                     <property name="" value=""/>
+                    <property name="document-ref" value="#[payload]"/>
                     <property name="accessKey" value=""/>
                     <property name="secretKey" value=""/>
                     <property name="updated"/>
                     <property name="tableName" value="MyTestTable"/>
-                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/dynamodb/delete-document"/>
-                    <property name="template-ref" value="#[payload]"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/dynamodb/save-document"/>
                     <property name="config-ref" value="Amazon_DynamoDB"/>
                 </properties>
                 <description></description>
             </pattern>
-            <pattern name="Echo" type="http://www.mulesoft.org/schema/mule/core/echo-component" entity-id="ed399614-7717-43d0-ad55-c7c4a0527725">
+            <pattern name="Echo" type="http://www.mulesoft.org/schema/mule/core/echo-component" entity-id="e9e44a51-465b-4371-8172-a72036800151">
                 <graphicalData x="0" y="0" width="0" height="0"/>
+                <description></description>
             </pattern>
         </lane>
     </flow>

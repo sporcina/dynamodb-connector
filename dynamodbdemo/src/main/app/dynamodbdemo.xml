@@ -21,4 +21,10 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
         <dynamodb:save-document config-ref="Amazon_DynamoDB" tableName="MyTestTable" doc:name="Amazon DynamoDB"/>
         <echo-component doc:name="Echo"/>
     </flow>
+    <flow name="DeleteDocumentFlow" doc:name="DeleteDocumentFlow">
+        <http:inbound-endpoint exchange-pattern="one-way" host="localhost" port="8081" path="deleteDocument" doc:name="HTTP"/>
+        <custom-transformer class="org.mule.modules.dynamodb.demo.transformers.HttpDeleteDocumentToFakeCustomer" doc:name="Java"/>
+        <dynamodb:delete-document config-ref="Amazon_DynamoDB" tableName="MyTestTable" doc:name="Amazon DynamoDB"/>
+        <echo-component doc:name="Echo"/>
+    </flow>
 </mule>
