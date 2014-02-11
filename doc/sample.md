@@ -216,11 +216,33 @@ you have a compelling reason too, let DynamoDB assign the document id's for you.
 
 ![Save a Document - saved document console](images/Step4-6.png)
 
+*   Copy the unique value for 'num' and set it aside.  We'll need this value in later in this tutorial.
 *   Terminate your Mule Application instance in Mule Studio **Console** tab and save your project.
 
-### Step 5: Run the Demo project
+### Step 5: Delete a Document
 
-### Step 6: Test the Flows
+Now that we have a document saved in the table, we can remove it using a similar flow.
+
+*   Create a new flow that is identical to the previous flow you created, with the following changes:
+    *   Give the HTTP endpoint a path titled "deleteDocument".
+    *   Name the flow "DeleteDocumentFlow"
+    *   Change the Amazon DynamoDB Cloud Connector element to use "Delete document" operation
+    *   The Java transformer should reference "HttpDeleteDocumentToFakeCustomer.java", which can be downloaded [here](https://github.com/sporcina/dynamodb-connector/blob/master/dynamodbdemo/src/main/java/org/mule/modules/dynamodb/demo/transformers/HttpDeleteDocumentToFakeCustomer.java).
+
+Your flow tab should look like this:
+
+![Delete a Document - created a new flow](images/Step5-1.png)
+
+*   Go to your web browser and navigate to **http://localhost:8081/deleteDocument?num={insert the unique id you copied previously}**.  (e.g. "http://localhost:8081/deleteDocument?num=63fcceb5-a7fc-47ba-b752-96305aeb8684")
+
+Your Console tab in Mule Studio should show the response from DynamoDB; a FakeCustomer whose unique id matches the id
+you sent to the service.  Only the unique id is sent back in the 'num' field.  No other data is returned.
+
+![Delete a Document - the DynamoDB response](images/Step5-2.png)
+
+### Step 6: Run the Demo project
+
+### Step 7: Test the Flows
 
 [Flow XML](#flowXML)
 
