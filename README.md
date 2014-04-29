@@ -48,14 +48,14 @@ prompt or terminal.  In your IDE (e.g. IntelliJ) you can right-click on either o
 
 ![Alt text](/readme_images/Execute_Stories_In_IntelliJ.png "Executing the acceptance tests from Intelli-J")
 
-The tests will create a new table titled "DynamoDbConnectorTestTable_toDelete", exercise it with documents, and then
-delete it.  Creating a new DynamoDB table takes time, so to save some, the test that deletes the table is disabled using
-@Ignore.  Additionally, JUnit does not guarantee the order of the tests.  So the table deletion could occur before the
-other tests execute.  Ultimately, the proper way to execute these tests would be to include the creation and deletion
-of the table within each test to make them independent of each other.  There are other solutions like using @Before/@After or
-@FixMethodOrder annotations to fix the order of the tests.  These solutions are generally discouraged since they
-introduce inter-test dependencies that adds complexity to the code.  For small projects this would likely not be an
-issue.  For larger projects, it could become a development tax over time.
+The tests will create a new table titled "DynamoDbConnectorTestTable_toDelete" & exercise it with documents.  Creating a
+new DynamoDB table takes time, so to save some, the test that deletes the table is disabled using @Ignore.  Additionally,
+JUnit does not guarantee the order of the tests.  So the table deletion could occur before the other tests execute.  Ultimately,
+the proper way to execute these tests would be to include the creation and deletion of the table within each test to make
+them independent of each other.  There are other solutions like using @Before/@After or @FixMethodOrder annotations to fix
+the order of the tests.  These solutions are generally discouraged since they introduce inter-test dependencies that adds
+complexity to the code.  For small projects this would likely not be an issue.  For larger projects, it could become a
+development tax over time.
 
 
 Important Files
