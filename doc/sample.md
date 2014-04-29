@@ -10,9 +10,11 @@
 
 [Step 4: Save a Document](#step4)
 
-[Step 5: Run the Demo project](#step5)
+[Step 5: Delete the document](#step5)
 
-[Step 6: Test the Flows](#step6)
+[Step 6: Run the Demo project](#step6)
+
+[Step 7: Test the Flows](#step7)
 
 [Flow XML](#flowXML)
 
