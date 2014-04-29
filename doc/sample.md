@@ -54,9 +54,9 @@ from scratch.
 
 ### Step 1: Install DynamoDB Mule Connector
 
-## From the Update Site (TBD)
+## From the Update Site
 
-
+note: this step is under construction until the connector is uploaded to Mule servers
 
 *    In Mule Studio select **Help** \> **Install New Software...**.
 
