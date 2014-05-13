@@ -28,17 +28,18 @@ http://docs.aws.amazon.com/AWSSecurityCredentials/1.0/AboutAWSCredentials.html#A
 
 Building
 ========
-1. Download the code and navigate to the root folder that houses the pom.xml file.
-2. Enter "mvn clean install".
+1. Download the code.
+2. Navigate to the root folder that houses the pom.xml file.
+3. Enter "mvn clean install".
 
 ![Alt text](/readme_images/Building_From_Terminal.png "Building from the Mac Terminal")
 
-The project will build and execute the acceptance tests automatically.
+The project will build and execute the acceptance tests automatically.  The tests will create a new table in dynamoDB
+under your account and interact with it.
 
 
 Running Tests Independently
 ===========================
-Windows Command Prompt or Mac Terminal
 Execute "mvn integration-test” in the root folder of the project.
 
 ![Alt text](/readme_images/Running_Tests_From_Terminal.png "Running acceptance tests from Mac Terminal")
