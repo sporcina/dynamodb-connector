@@ -8,9 +8,13 @@ against AWS DynamoDB tables.  If you don't use Mule, you can also leverage the c
 Setup
 =====
 
-To run the tests create the file "AwsCredentials.properties" in your test resources folder
-(e.g. /src/test/resources/AwsCredentials.properties).  Place the following content in the file, adding your
-AWS access and security keys:
+These instructions assume that you are using Maven to manage your dependencies.  If you are not, you'll have to adjust
+your approach accordingly.
+
+Before building the project you'll need to ensure the appropriate AWS credentials are in place.  These credentials are
+used when executing the automated acceptance tests during.  Create the file "AwsCredentials.properties" in your test
+resources folder (e.g. /src/test/resources/AwsCredentials.properties).  Place the following content in the file, adding
+your AWS access and security keys:
 
 
         # Fill in your AWS Access Key ID and Secret Access Key
