@@ -44,11 +44,9 @@ In order to build and run this project you'll need:
 
 * [MuleStudio](http://www.mulesoft.org/download-mule-esb-community-edition)
 
-* TBD: NOT NEEDED for this documentation?? - (optional) [Intelli-J IDEA](http://www.jetbrains.com/idea/download/) or [Eclipse](http://www.eclipse.org/downloads/)
-
 
 The entire Mule Studio project can be found in [GitHub](https://github.com/sporcina/dynamodb-connector/tree/master/dynamodbdemo).  You can download it from there if you don't want to create everything
-from scratch.
+from scratch.  You'll need to replace the fake security keys in the DynamoDB global element with the ones from your account.
 
 
 
@@ -70,7 +68,8 @@ note: this step is under construction until the connector is uploaded to Mule se
 
 *    Navigate to your DynamoDB root folder (e.g "~/git_repos/dynamodb-connector" -or- "c:\git_repos\dynamodb-connector")
 *    Execute the this command: "mvn clean package -Ddevkit.studio.package.skip=false"
-*    In Mule Studio select **Help** \> **Install New Software...**.
+*    In Mule Studio, create a new Mule project.
+*    Select **Help** \> **Install New Software...**.
 *    Select **Add**, then select **Archive**
 *    Navigate to the **target** folder under your DynamoDB root folder
 *    Select **UpdateSite.zip**, then select **Open**
