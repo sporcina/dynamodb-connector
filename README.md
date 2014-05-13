@@ -8,8 +8,12 @@ against AWS DynamoDB tables.  If you don't use Mule, you can also leverage the c
 Setup
 =====
 
-These instructions assume that you are using Maven (http://maven.apache.org) to manage your dependencies.  If you are not, you'll have to adjust
-your approach accordingly.
+These instructions are a simple introduction to acquiring and running the project.  It assumes that you are using
+Maven (http://maven.apache.org) to manage your dependencies.  If you are not, you'll have to adjust your approach
+accordingly.
+
+For a detailed hands-on demonstration integrating and using this connector in Mule Studio, feel free to navigate
+to https://github.com/sporcina/dynamodb-connector/blob/master/doc/sample.md.
 
 Before building the project you'll need to ensure the appropriate AWS credentials are in place.  These credentials are
 used when executing the automated acceptance tests during.  Create the file "AwsCredentials.properties" in your test
