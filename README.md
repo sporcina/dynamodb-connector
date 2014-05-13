@@ -34,8 +34,8 @@ Building
 
 ![Alt text](/readme_images/Building_From_Terminal.png "Building from the Mac Terminal")
 
-The project will build and execute the acceptance tests automatically.  The tests will create a new table in dynamoDB
-under your account and interact with it.
+This will build the project and execute the acceptance tests automatically.  Please note that the tests will create a
+new table in dynamoDB under your account and interact with it.
 
 
 Running Tests Independently
