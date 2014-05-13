@@ -8,7 +8,7 @@ against AWS DynamoDB tables.  If you don't use Mule, you can also leverage the c
 Setup
 =====
 
-These instructions assume that you are using Maven to manage your dependencies.  If you are not, you'll have to adjust
+These instructions assume that you are using Maven (http://maven.apache.org) to manage your dependencies.  If you are not, you'll have to adjust
 your approach accordingly.
 
 Before building the project you'll need to ensure the appropriate AWS credentials are in place.  These credentials are
@@ -99,4 +99,7 @@ http://www.mulesoft.org/documentation/display/MULE3INTRO/Home
 
 Icons used for this connector can be found here:
 http://aws.amazon.com/architecture/icons/
+
+Installation and use instructions for Maven can be found here:
+http://maven.apache.org
 
