@@ -2,8 +2,7 @@
 Welcome
 =======
 The "DynamoDB Mule Connector" is a wrapper around the AWS Java libraries allowing Mule flows to perform CRUD operations
-against AWS DynamoDB tables.  This wrapper allows you to easily interact with AWS tables through Mule.  You can also
-leverage the connector directly through Java if you desire.
+against AWS DynamoDB tables.  If you don't use Mule, you can also leverage the connector directly through Java if you desire.
 
 
 Setup
