@@ -9,11 +9,9 @@ Setup
 =====
 
 These instructions are a simple introduction to acquiring and running the project.  It assumes that you are using
-Maven (http://maven.apache.org) to manage your dependencies.  If you are not, you'll have to adjust your approach
-accordingly.
-
-For a detailed hands-on demonstration integrating and using this connector in Mule Studio, feel free to navigate
-to https://github.com/sporcina/dynamodb-connector/blob/master/doc/sample.md.
+[Maven](http://maven.apache.org) to manage your dependencies.  If [Mule Studio](http://www.mulesoft.org/download-mule-esb-community-edition) is your environment of choice, you can jump
+to the detailed hands-on walk-through on integrating and using this connector in Mule Studio, located at
+https://github.com/sporcina/dynamodb-connector/blob/master/doc/sample.md.
 
 Before building the project you'll need to ensure the appropriate AWS credentials are in place.  These credentials are
 used when executing the automated acceptance tests.  Create the file "AwsCredentials.properties" in your test
@@ -40,7 +38,7 @@ config in /src/test/resources/mule-config.xml.  Just update the following:
 
 Building
 ========
-1. Download the code.
+1. Download the code from this repository
 2. Navigate to the root folder that houses the pom.xml file.
 3. Enter "mvn clean install".
 
