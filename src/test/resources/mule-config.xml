@@ -20,9 +20,8 @@
 
     <!-- see com.amazonaws.regions.Regions for the enumerated region names -->
     <dynamodb:config region="US_WEST_1"
-                     accessKey="insert_your_key_here"
-                     secretKey="insert_your_key_here>"/><!-- TODO: add this functionality and test it - sporcina (Oct.13, 2013)-->
-
+                     accessKey=""
+                     secretKey=""/>
 
     <flow name="Should_Create_Table">
         <dynamodb:create-table tableName="${testTableName}"
