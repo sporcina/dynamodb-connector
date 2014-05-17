@@ -16,7 +16,7 @@ For a detailed hands-on demonstration integrating and using this connector in Mu
 to https://github.com/sporcina/dynamodb-connector/blob/master/doc/sample.md.
 
 Before building the project you'll need to ensure the appropriate AWS credentials are in place.  These credentials are
-used when executing the automated acceptance tests during.  Create the file "AwsCredentials.properties" in your test
+used when executing the automated acceptance tests.  Create the file "AwsCredentials.properties" in your test
 resources folder (e.g. /src/test/resources/AwsCredentials.properties).  Place the following content in the file, adding
 your AWS access and security keys:
 
@@ -30,8 +30,8 @@ your AWS access and security keys:
 If you do not know your keys, you can go here for more information:
 http://docs.aws.amazon.com/AWSSecurityCredentials/1.0/AboutAWSCredentials.html#AccessKeys
 
-If you'd prefer not to manage your credentials in a property file, you could alternatively add your credentials to the
-connector config in /src/test/resources/mule-config.xml.  Just update the following:
+If you'd prefer not to manage your credentials in a property file, you could alternatively add them to the connector
+config in /src/test/resources/mule-config.xml.  Just update the following:
 
         <!-- see com.amazonaws.regions.Regions for the enumerated region names -->
         <dynamodb:config region="US_WEST_1"
