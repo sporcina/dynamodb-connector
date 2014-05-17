@@ -6,7 +6,18 @@
     <artifactId>dynamodb-connector</artifactId>
     <version>1.0</version>
     <packaging>mule-module</packaging>
+
     <name>DynamoDB Mule Cloud Connector</name>
+    <description>A Mule ESB Cloud Connector for the AWS DynamoDB service</description>
+    <url>http://www.mulesoft.org/connectors/amazon-dynamodb</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <properties>
         <jdk.version>1.6</jdk.version>
