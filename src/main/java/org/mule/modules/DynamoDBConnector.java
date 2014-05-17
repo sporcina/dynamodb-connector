@@ -32,6 +32,10 @@ import java.util.List;
  * AWS DynamoDB Cloud Connector
  *
  * @author Sheldon Porcina
+ *
+ * notes:
+ *
+ * @NotNull is only used in cases where the cost of failure is high and where enforcement is not handled via other mechanisms.
  */
 @Connector(name = "dynamodb",
         friendlyName="Amazon DynamoDB",
@@ -118,7 +122,6 @@ public class DynamoDBConnector {
 
         Region regionEnum = Region.getRegion(getRegionAsEnum());
         getDynamoDBClient().setRegion(regionEnum);
-        //getDynamoDBClient().setEndpoint("http://dynamodb.us-west-1.amazonaws.com");
     }
 
     /**
