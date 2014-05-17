@@ -30,6 +30,14 @@ your AWS access and security keys:
 If you do not know your keys, you can go here for more information:
 http://docs.aws.amazon.com/AWSSecurityCredentials/1.0/AboutAWSCredentials.html#AccessKeys
 
+If you'd prefer not to manage your credentials in a property file, you could alternatively add your credentials to the
+connector config in /src/test/resources/mule-config.xml.  Just update the following:
+
+        <!-- see com.amazonaws.regions.Regions for the enumerated region names -->
+        <dynamodb:config region="US_WEST_1"
+                        accessKey="<insert your key here>"
+                        secretKey="<insert your key here>"/>
+
 Building
 ========
 1. Download the code.
