@@ -35,7 +35,7 @@ import java.util.List;
  *
  * notes:
  *
- * @NotNull is only used in cases where the cost of failure is high and where enforcement is not handled via other mechanisms.
+ * {@code @NotNull} is only used in cases where the cost of failure is high and where enforcement is not handled via other mechanisms.
  */
 @Connector(name = "dynamodb",
         friendlyName="Amazon DynamoDB",
