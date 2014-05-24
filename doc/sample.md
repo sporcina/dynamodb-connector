@@ -25,7 +25,7 @@
 ### Purpose
 
 
-This document provides detailed instructions on how to acquire the DynamoDB connector and demonstrates how to create a simple demo application that leverages it.
+This document provides detailed instructions on how to create a new Mule Studio project that leverages the DynamoDB connector.
 
 
 
@@ -40,6 +40,8 @@ In order to build and run this project you'll need:
 
 * [MuleStudio](http://www.mulesoft.org/download-mule-esb-community-edition)
 
+* [Maven](http://maven.apache.org)
+
 
 The entire Mule Studio project can be found on [GitHub](https://github.com/sporcina/dynamodb-connector/tree/master/dynamodbdemo).  You can download it from there if you don't want to create everything
 from scratch.  You'll need to replace the fake security keys in the DynamoDB global element with the ones from your account.
@@ -49,10 +51,10 @@ from scratch.  You'll need to replace the fake security keys in the DynamoDB glo
 ### Step 1: Install DynamoDB Mule Connector
 
 
-Since this project is a third-party add-in for Mule Studio, MuleSoft does not add it to its default listing of connectors in Mule Studio.  To add it you'll need to import it in to Mule Studio.  This is something you need to do only once for a new Mule Studio project.
+Since this project is a third-party add-in for Mule Studio, MuleSoft does not add it to its default listing of connectors in Mule Studio.  You'll need to import it.  This is something you need to do only once for your new Mule Studio project.
 
 *    Navigate to your DynamoDB root folder (e.g "~/git_repos/dynamodb-connector" -or- "c:\git_repos\dynamodb-connector")
-*    Execute the this command: "mvn clean package -Ddevkit.studio.package.skip=false"
+*    Execute the this command: "mvn clean package -Ddevkit.studio.package.skip=false".
 *    In Mule Studio, create a new Mule project.
 *    Select **Help** \> **Install New Software...**.
 *    Select **Add**, then select **Archive**
