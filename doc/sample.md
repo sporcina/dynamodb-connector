@@ -52,19 +52,8 @@ from scratch.  You'll need to replace the fake security keys in the DynamoDB glo
 
 ### Step 1: Install DynamoDB Mule Connector
 
-## From the Update Site
 
-note: this step is under construction until the connector is uploaded to Mule servers
-
-*    In Mule Studio select **Help** \> **Install New Software...**.
-
-*    Select **MuleStudio Cloud Connectors Update Site** in **Work With** drop-down.
-
-*    Check two items from Community folder: **Mule DynamoDB Connector Mule Studio Extension** and click **Next**.
-
-*    Follow installation steps.
-
-## From a local build
+Since this project is a third-party add-in for Mule Studio, MuleSoft does not add it to its default listing of connectors in Mule Studio.  To add it you'll need to import it in to Mule Studio.  This is something you need to do only once for a new Mule Studio project.
 
 *    Navigate to your DynamoDB root folder (e.g "~/git_repos/dynamodb-connector" -or- "c:\git_repos\dynamodb-connector")
 *    Execute the this command: "mvn clean package -Ddevkit.studio.package.skip=false"
@@ -81,8 +70,6 @@ note: this step is under construction until the connector is uploaded to Mule se
 *    If prompted, restart Mule Studio
 
 ### Step 2: Create a Demo Project
-
-
 
 *    Run Mule Studio and select **File \> New \> Mule Project** menu item.
 
