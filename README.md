@@ -9,8 +9,8 @@ Setup
 =====
 
 These instructions are a simple introduction to acquiring and running the project.  It assumes that you are using
-[Maven](http://maven.apache.org) to manage your dependencies.  If [Mule Studio](http://www.mulesoft.org/download-mule-esb-community-edition) is your environment of choice, you can jump
-to the detailed hands-on walk-through on integrating and using this connector in Mule Studio, located at
+[Maven](http://maven.apache.org) to manage your dependencies.  If [Mule Studio](http://www.mulesoft.org/download-mule-esb-community-edition) is your environment of choice, you can skip these
+instructions and jump to the detailed hands-on walk-through on integrating and using this connector in Mule Studio, located at
 https://github.com/sporcina/dynamodb-connector/blob/master/doc/sample.md.
 
 Before building the project you'll need to ensure the appropriate AWS credentials are in place.  These credentials are

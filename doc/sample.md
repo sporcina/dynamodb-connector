@@ -22,10 +22,7 @@
 
 
 
-
-
 ### Purpose
-
 
 
 This document provides detailed instructions on how to acquire the DynamoDB connector and demonstrates how to create a simple demo application that leverages it.
@@ -33,7 +30,6 @@ This document provides detailed instructions on how to acquire the DynamoDB conn
 
 
 ### Prerequisites
-
 
 
 In order to build and run this project you'll need:
@@ -45,7 +41,7 @@ In order to build and run this project you'll need:
 * [MuleStudio](http://www.mulesoft.org/download-mule-esb-community-edition)
 
 
-The entire Mule Studio project can be found in [GitHub](https://github.com/sporcina/dynamodb-connector/tree/master/dynamodbdemo).  You can download it from there if you don't want to create everything
+The entire Mule Studio project can be found on [GitHub](https://github.com/sporcina/dynamodb-connector/tree/master/dynamodbdemo).  You can download it from there if you don't want to create everything
 from scratch.  You'll need to replace the fake security keys in the DynamoDB global element with the ones from your account.
 
 
@@ -68,6 +64,7 @@ Since this project is a third-party add-in for Mule Studio, MuleSoft does not ad
 *    Accept the **License Agreement** and select **Finish**
 *    If you are prompted with a warning that the connector is unsigned, just select **OK**
 *    If prompted, restart Mule Studio
+
 
 ### Step 2: Create a Demo Project
 
@@ -145,6 +142,7 @@ If you login to AWS and view your DynamoDB Management Console website, you'll se
 
 *   Terminate your Mule Application instance in Mule Studio by selecting the button shaped like a "red square" on the right side of the screen in the **Console** tab noted earlier
 
+
 ### Step 4: Save a Document
 
 Now that we have a table, we can save information to it.  For the purpose of this demo, we'll save some fake customer data.
@@ -207,6 +205,7 @@ you have a compelling reason too, let DynamoDB assign the document id's for you.
 *   Copy the unique value for 'num' and set it aside.  We'll need this value in later in this tutorial.
 *   Terminate your Mule Application instance in Mule Studio **Console** tab and save your project.
 
+
 ### Step 5: Delete a Document
 
 Now that we have a document saved in the table, we can remove it using a similar flow.
@@ -228,7 +227,9 @@ you sent to the service.  Only the unique id is sent back in the 'num' field.  N
 
 ![Delete a Document - the DynamoDB response](images/Step5-2.png)
 
+
 ### Step 6: Run the Demo project
+
 
 ### Step 7: Test the Flows
 
