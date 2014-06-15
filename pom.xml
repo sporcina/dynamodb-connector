@@ -10,6 +10,7 @@
     <name>DynamoDB Mule Cloud Connector</name>
     <description>A Mule ESB Cloud Connector for the AWS DynamoDB service</description>
     <url>http://www.mulesoft.org/connectors/amazon-dynamodb</url>
+    <inceptionYear>2014</inceptionYear>
 
     <licenses>
         <license>
@@ -19,11 +20,45 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>sporcina</id>
+            <name>Sheldon</name>
+            <email>sporcina@gmail.com</email>
+            <url>https://github.com/sporcina</url>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>-6</timezone>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/sporcina/dynamodb-connector</url>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/sporcina/dynamodb-connector/issues</url>
+    </issueManagement>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <properties>
-        <jdk.version>1.6</jdk.version>
+        <jdk.version>1.7</jdk.version>
         <mule.version>3.4.0</mule.version>
         <junit.version>4.11</junit.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <slf4j.version>1.7.7</slf4j.version>
         <jbehave.version>3.8</jbehave.version>
         <mockito.version>1.8.2</mockito.version>
         <logback.version>1.0.13</logback.version>
@@ -73,6 +108,33 @@
                         </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.6.2</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>ossrh</serverId>
+                        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+
+                        <!-- The Base URL of Nexus instance where we want to stage -->
+                        <!--<nexusUrl>https://oss.sonatype.org/content/repositories/snapshots</nexusUrl>-->
+                        <!-- The server "id" element from settings to use authentication from.  See the ./m2/settings.xml for details -->
+                        <!--<serverId>oss.sonatype.org.nexus</serverId>-->
+                        <!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.1</version>
+                    <configuration>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <arguments>${arguments} -Psonatype-oss-release</arguments>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -112,7 +174,9 @@
                 </configuration>
             </plugin>
 
-            <!-- for use with environments that support JBehave -->
+            <!--
+                For use with environments that support JBehave
+            -->
             <!--
             <plugin>
                 <groupId>org.jbehave</groupId>
@@ -156,6 +220,19 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.8</version>
                 <executions>
@@ -195,6 +272,20 @@
                     <additionalJOption>-J-Xmx1024m</additionalJOption>
                 </configuration>
             </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-gpg-plugin</artifactId>-->
+                <!--<version>1.5</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>sign-artifacts</id>-->
+                        <!--<phase>verify</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>sign</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -215,6 +306,19 @@
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -326,6 +430,11 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.2</version>
         </dependency>
     </dependencies>
 
