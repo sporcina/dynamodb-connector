@@ -13,34 +13,47 @@ These instructions are a simple introduction to acquiring and running the projec
 instructions and jump to the detailed hands-on walk-through on integrating and using this connector in Mule Studio, located at
 https://github.com/sporcina/dynamodb-connector/blob/master/doc/sample.md.
 
-Before building the project you'll need to ensure the appropriate AWS credentials are in place.  These credentials are
-used when executing the automated acceptance tests.  Create the file "AwsCredentials.properties" in your test
-resources folder (e.g. /src/test/resources/AwsCredentials.properties).  Place the following content in the file, adding
-your AWS access and security keys:
-
-
-        # Fill in your AWS Access Key ID and Secret Access Key
-        # http://aws.amazon.com/security-credentials
-
-        accessKey = <insert your key here>
-        secretKey = <insert your key here>
-
-If you do not know your keys, you can go here for more information:
-http://docs.aws.amazon.com/AWSSecurityCredentials/1.0/AboutAWSCredentials.html#AccessKeys
-
-If you'd prefer not to manage your credentials in a property file, you could alternatively add them to the connector
-config in /src/test/resources/mule-config.xml.  Just update the following:
-
-        <!-- see com.amazonaws.regions.Regions for the enumerated region names -->
-        <dynamodb:config region="US_WEST_1"
-                        accessKey="<insert your key here>"
-                        secretKey="<insert your key here>"/>
+If you plan to consume this connector within your own Maven project, all you have to do is add this dependency to your pom.xml:
+ 
+         <dependency>
+             <groupId>com.github.sporcina.mule.modules</groupId>
+             <artifactId>dynamodb-connector</artifactId>
+             <version>1.0</version>
+         </dependency>
+         
+If you are using a different dependency framework, you may find the command for integrating this connector under the "Dependency Information"
+section of the [Maven Central Repo entry](http://search.maven.org/#artifactdetails|com.github.sporcina.mule.modules|dynamodb-connector|1.0|mule-module) for this project. 
 
 Building
 ========
 1. Download the code from this repository
-2. Navigate to the root folder that houses the pom.xml file.
-3. Enter "mvn clean install".
+2. Add your AWS Keys
+
+    Before building the project you'll need to ensure the appropriate AWS credentials are in place.  These credentials are
+    used when executing the automated acceptance tests.  Create the file "AwsCredentials.properties" in your test
+    resources folder (e.g. /src/test/resources/AwsCredentials.properties).  Place the following content in the file, adding
+    your AWS access and security keys:
+    
+    
+            # Fill in your AWS Access Key ID and Secret Access Key
+            # http://aws.amazon.com/security-credentials
+    
+            accessKey = <insert your key here>
+            secretKey = <insert your key here>
+    
+    If you do not know your keys, you can go here for more information:
+    http://docs.aws.amazon.com/AWSSecurityCredentials/1.0/AboutAWSCredentials.html#AccessKeys
+    
+    If you'd prefer not to manage your credentials in a property file, you could alternatively add them to the connector
+    config in /src/test/resources/mule-config.xml.  Just update the following:
+    
+            <!-- see com.amazonaws.regions.Regions for the enumerated region names -->
+            <dynamodb:config region="US_WEST_1"
+                            accessKey="<insert your key here>"
+                            secretKey="<insert your key here>"/>
+                        
+3. Navigate to the root folder that houses the pom.xml file.
+4. Enter "mvn clean install".
 
 ![Alt text](/readme_images/Building_From_Terminal.png "Building from the Mac Terminal")
 
