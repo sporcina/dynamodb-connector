@@ -25,7 +25,7 @@
 ### Purpose
 
 
-This document provides detailed instructions on how to create a new Mule Studio project that leverages the DynamoDB connector.
+This document provides detailed instructions on how to create a new Anypoint Studio project that leverages the DynamoDB connector.
 
 
 
@@ -43,7 +43,7 @@ In order to build and run this project you'll need:
 * [Maven](http://maven.apache.org)
 
 
-The entire Mule Studio project can be found on [GitHub](https://github.com/sporcina/dynamodb-connector/tree/master/dynamodbdemo).  You can download it from there if you don't want to create everything
+The entire Anypoint Studio project can be found on [GitHub](https://github.com/sporcina/dynamodb-connector/tree/master/dynamodbdemo).  You can download it from there if you don't want to create everything
 from scratch.  You'll need to replace the fake security keys in the DynamoDB global element with the ones from your account.
 
 
@@ -51,11 +51,11 @@ from scratch.  You'll need to replace the fake security keys in the DynamoDB glo
 ### Step 1: Install DynamoDB Mule Connector
 
 
-Since this project is a third-party add-in for Mule Studio, MuleSoft does not add it to its default listing of connectors in Mule Studio.  You'll need to import it.  This is something you need to do only once for your new Mule Studio project.
+Since this project is a third-party add-in for Anypoint Studio, MuleSoft does not add it to its default listing of connectors in Anypoint Studio.  You'll need to import it.  This is something you need to do only once for your new Anypoint Studio project.
 
 *    Navigate to your DynamoDB root folder (e.g "~/git_repos/dynamodb-connector" -or- "c:\git_repos\dynamodb-connector")
 *    Execute the this command: "mvn clean package -Ddevkit.studio.package.skip=false".
-*    In Mule Studio, create a new Mule project.
+*    In Anypoint Studio, create a new Mule project.
 *    Select **Help** \> **Install New Software...**.
 *    Select **Add**, then select **Archive**
 *    Navigate to the **target** folder under your DynamoDB root folder
@@ -65,12 +65,12 @@ Since this project is a third-party add-in for Mule Studio, MuleSoft does not ad
 *    Select **Next** until you get the **License Agreement**
 *    Accept the **License Agreement** and select **Finish**
 *    If you are prompted with a warning that the connector is unsigned, just select **OK**
-*    If prompted, restart Mule Studio
+*    If prompted, restart Anypoint Studio
 
 
 ### Step 2: Create a Demo Project
 
-*    Run Mule Studio and select **File \> New \> Mule Project** menu item.
+*    Run Anypoint Studio and select **File \> New \> Mule Project** menu item.
 
 *    Type **DynamoDBDemo** as a project name and click **Finish**.
 
@@ -131,7 +131,7 @@ Your **Amazon DynamoDB** endpoint should look like this:
     *   Select your flow to highlight it
     *   From the **Run** menu, select **Run As** then **Mule Application**
     *   Launch your web browser and navigate to "http://localhost:8081/createTable"
-    *   Now go back to Mule Studio and select the **Console** tab at the bottom the screen.
+    *   Now go back to Anypoint Studio and select the **Console** tab at the bottom the screen.
 
 You'll see log entries showing the DynamoDB Connector working.  Creating a new table in DynamoDB takes time.  Watch the
 status logs until you see the message that the current state is **ACTIVE**.  It should look like this:
@@ -142,7 +142,7 @@ If you login to AWS and view your DynamoDB Management Console website, you'll se
 
 ![Create a table - DynamoDB Management Console website](images/Step3-5.png)
 
-*   Terminate your Mule Application instance in Mule Studio by selecting the button shaped like a "red square" on the right side of the screen in the **Console** tab noted earlier
+*   Terminate your Mule Application instance in Anypoint Studio by selecting the button shaped like a "red square" on the right side of the screen in the **Console** tab noted earlier
 
 
 ### Step 4: Save a Document
@@ -176,7 +176,7 @@ TBD: does it matter if the reader does not have Java installed?
 *   Save "FakeCustomer.java" in a new package "org.mule.modules.dynamodb.demo.models"
 *   Save "HttpCreateDocumentToFakeCustomer.java" in a new package "org.mule.modules.dynamodb.demo.transformers"
 
-Your Mule Studio package explorer should like this:
+Your Anypoint Studio package explorer should like this:
 
 ![Save a Document - package explorer](images/Step4-3.png)
 
@@ -193,7 +193,7 @@ Your Mule Studio package explorer should like this:
     *   Select the "SaveDocumentFlow" to highlight it
     *   From the **Run** menu, select **Run As** then **Mule Application**
     *   Launch your web browser and navigate to "http://localhost:8081/saveDocument?name=Joe&phone=123-123-1234"
-    *   Now go back to Mule Studio and select the **Console** tab.
+    *   Now go back to Anypoint Studio and select the **Console** tab.
 
 The log shows an entry for FakeCustomer that includes the data we passed to it through the HTTP query parameters.  You'll
 note that 'num' is assigned a unique identifier.  This unique identifier is generated by DynamoDB when a document is saved.
@@ -205,7 +205,7 @@ you have a compelling reason too, let DynamoDB assign the document id's for you.
 ![Save a Document - saved document console](images/Step4-6.png)
 
 *   Copy the unique value for 'num' and set it aside.  We'll need this value in later in this tutorial.
-*   Terminate your Mule Application instance in Mule Studio **Console** tab and save your project.
+*   Terminate your Mule Application instance in Anypoint Studio **Console** tab and save your project.
 
 
 ### Step 5: Delete a Document
@@ -224,7 +224,7 @@ Your flow tab should look like this:
 
 *   Go to your web browser and navigate to **http://localhost:8081/deleteDocument?num={insert the unique id you copied previously}**.  (e.g. "http://localhost:8081/deleteDocument?num=63fcceb5-a7fc-47ba-b752-96305aeb8684")
 
-Your Console tab in Mule Studio should show the response from DynamoDB; a FakeCustomer whose unique id matches the id
+Your Console tab in Anypoint Studio should show the response from DynamoDB; a FakeCustomer whose unique id matches the id
 you sent to the service.  Only the unique id is sent back in the 'num' field.  No other data is returned.
 
 ![Delete a Document - the DynamoDB response](images/Step5-2.png)

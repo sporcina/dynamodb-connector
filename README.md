@@ -9,8 +9,8 @@ Setup
 =====
 
 These instructions are a simple introduction to acquiring and running the project.  It assumes that you are using
-[Maven](http://maven.apache.org) to manage your dependencies.  If [Mule Studio](http://www.mulesoft.org/download-mule-esb-community-edition) is your environment of choice, you can skip these
-instructions and jump to the detailed hands-on walk-through on integrating and using this connector in Mule Studio, located at
+[Maven](http://maven.apache.org) to manage your dependencies.  If [Anypoint Studio](http://www.mulesoft.org/download-mule-esb-community-edition) is your environment of choice, you can skip these
+instructions and jump to the detailed hands-on walk-through on integrating and using this connector in Anypoint Studio, located at
 https://github.com/sporcina/dynamodb-connector/blob/master/doc/sample.md.
 
 If you plan to consume this connector within your own Maven project, all you have to do is add this dependency to your pom.xml:
