@@ -26,6 +26,10 @@ section of the [Maven Central Repo entry](http://search.maven.org/#artifactdetai
 
 Building
 ========
+
+If you do not want too use the released version of this project via Maven, you can build the project independently by
+following these instructions.
+
 1. Download the code from this repository
 2. Add your AWS Keys
 
